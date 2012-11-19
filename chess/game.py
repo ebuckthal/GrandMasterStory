@@ -7,9 +7,10 @@ class ChessGame(object):
       self.gameDict = gamedict
       self.whiteMoves = []
       self.blackMoves = []
-      self.setupMoves()
+      self.finalScore = (0,0)
+      self.setup()
 
-   def setupMoves(self):
+   def setup(self):
       lastMove = None
       for move in self.gameDict['moves']:
          if len(self.blackMoves) > 0:
@@ -17,12 +18,15 @@ class ChessGame(object):
          self.whiteMoves.append(ChessMove(move[0], lastMove))
          self.blackMoves.append(ChessMove(move[1], self.whiteMoves[-1], False))
 
+      # determine final score
+      if len(self.whiteMoves) > len(self.blackMoves):
+         self.finalScore = (self.whiteMoves[-1].whiteScore, self.whiteMoves[-1].blackScore)
+      else: 
+         self.finalScore = (self.blackMoves[-1].whiteScore, self.blackMoves[-1].blackScore)
+
    def info(self):
       info = str(len(self.whiteMoves)) + ' moves.\n'
-      if len(self.whiteMoves) > len(self.blackMoves):
-         info += "Final score " + str(self.whiteMoves[-1].whiteScore) + '-' + str(self.whiteMoves[-1].blackScore)
-      else: 
-         info += "Final score " + str(self.blackMoves[-1].whiteScore) + '-' + str(self.blackMoves[-1].blackScore)
+      info += 'Final Score: ' + str(self.finalScore[0]) + '-' + str(self.finalScore[1])
       return info
 
    def gameStats(self):
