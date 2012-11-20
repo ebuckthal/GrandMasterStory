@@ -92,10 +92,13 @@ class Board(list):
                return (col,row)
       return None
 
-   def printOut(self):
+   def printOut(self, highlights):
       for row in range(7,-1,-1):
          rowstring = ''
          for col in range(8):
-            rowstring += ' ' + Piece.abbreviation(self[col][row]) + ' '
+            if self[col][row] in highlights:
+               rowstring += '[' + Piece.abbreviation(self[col][row]) + ']'
+            else:
+               rowstring += ' ' + Piece.abbreviation(self[col][row]) + ' '
          print rowstring
 

@@ -137,22 +137,26 @@ class ChessMove(object):
    def applyCastling(self):
       if self.isWhite:
          if self.castling == 'Q':
+            self.piece = Piece.WHITE_ROOK_A
             self.board[0][0] = Piece.NONE
             self.board[2][0] = Piece.WHITE_KING_E
             self.board[3][0] = Piece.WHITE_ROOK_A
             self.board[4][0] = Piece.NONE
          else:
+            self.piece = Piece.WHITE_ROOK_H
             self.board[4][0] = Piece.NONE
             self.board[5][0] = Piece.WHITE_ROOK_H
             self.board[6][0] = Piece.WHITE_KING_E
             self.board[7][0] = Piece.NONE
       else:
          if self.castling == 'Q':
+            self.piece = Piece.BLACK_ROOK_A
             self.board[0][7] = Piece.NONE
             self.board[2][7] = Piece.BLACK_KING_E
             self.board[3][7] = Piece.BLACK_ROOK_A
             self.board[4][7] = Piece.NONE
          else:
+            self.piece = Piece.BLACK_ROOK_H
             self.board[4][7] = Piece.NONE
             self.board[5][7] = Piece.BLACK_ROOK_H
             self.board[6][7] = Piece.BLACK_KING_E
@@ -176,7 +180,7 @@ class ChessMove(object):
       self.board.setPieceAt(self.dest, self.piece)
 
    def printBoard(self):
-      self.board.printOut()
+      self.board.printOut([self.piece])
 
    def printMove(self):
       print 'Move:', self.moveString
