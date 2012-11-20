@@ -11,6 +11,8 @@ class ChessMove(object):
       self.blackScore = 0
       self.board = None 
       # individual
+      self.moveString = move
+      self.notes = ''
       self.isWhite = isWhite
       self.check = False #True / False for check
       self.mate = False #True / False for checkmate
@@ -41,17 +43,13 @@ class ChessMove(object):
       elif self.castling:
          self.applyCastling()
 
-      self.printBoard()
-      print '-'*40
-
    def parseMove(self, move):
-      print 'Move:', move
       if 'O-O-O' in move:
          self.castling = 'Q'
       elif 'O-O' in move:
          self.castling = 'K'
       elif '-' in move:
-         print move
+         self.notes += move + '\n'
       else:
          skip = False
          for i in range(len(move) - 1, -1, -1):
@@ -84,7 +82,7 @@ class ChessMove(object):
          for p in possible:
             loc = self.board.locationOfPiece(p)
             if loc == None:
-               print 'Error: piece location not found'
+               self.notes += 'Error: piece location not found\n'
                continue
             if self.piece:
                if self.piece.isalpha(): #in column
@@ -162,7 +160,7 @@ class ChessMove(object):
 
    def updateBoard(self):
       if not self.location:
-         print 'Error: no move to make'
+         self.notes += 'Error: no move to make\n'
          return
 
       self.board.setPieceAt(self.location, Piece.NONE)
@@ -179,3 +177,15 @@ class ChessMove(object):
 
    def printBoard(self):
       self.board.printOut()
+
+   def printMove(self):
+      print 'Move:', self.moveString
+      if self.capture:
+         print 'Captured:', Piece.name[self.capture]
+      if self.check:
+         print 'Check.'
+      if self.mate:
+         print 'Check Mate!'
+      print self.notes
+      self.printBoard()
+      print '-'*40

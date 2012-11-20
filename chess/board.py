@@ -34,6 +34,12 @@ class Piece:
       return False
 
    @staticmethod
+   def isWhite(piece):
+      if piece < 16:
+         return True
+      return False
+
+   @staticmethod
    def piecesForType(ptype, isWhite):
       if ptype in ['R', 'N', 'B', 'Q', 'K']:
          if isWhite:
