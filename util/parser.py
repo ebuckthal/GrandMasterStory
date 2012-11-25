@@ -1,8 +1,7 @@
-#!/usr/bin/python
+# Author: Connor Lange
+# rclange@calpoly.edu
 import sys, os
 import re
-
-
 
 def parseAttributes(text):
   attribs = {}
