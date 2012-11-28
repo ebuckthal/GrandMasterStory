@@ -8,13 +8,14 @@ class ChessGame(object):
       self.gameDict = gamedict
       self.whiteMoves = []
       self.blackMoves = []
+      self.totalMoves = 0
       self.pieceActivity = {}
       self.finalScore = (0,0)
       self.setup()
 
    def setup(self):
       lastMove = None
-      for move in self.gameDict['moves']:
+      for move in self.gameDict['moves'][:-1]:
          if len(self.blackMoves) > 0:
             lastMove = self.blackMoves[-1]
          whiteMove = ChessMove(move[0], lastMove)
@@ -23,19 +24,34 @@ class ChessGame(object):
          self.whiteMoves.append(whiteMove)
          self.blackMoves.append(blackMove)
 
+      # handle last move (contains results)
+      move = self.gameDict['moves'][-1:][0]
+      whiteMove = ChessMove(move[0], lastMove)
+      if len(move) > 2:
+         blackMove = ChessMove(move[1], whiteMove, False)
+      else:
+         blackMove = None
+      self.gatherStats(whiteMove,blackMove)
+      self.whiteMoves.append(whiteMove)
+      if blackMove:
+         self.blackMoves.append(blackMove)
+
+      # get totalMoves
+      self.totalMoves = len(self.whiteMoves) + len(self.blackMoves)
+
       # determine final score
-      if len(self.whiteMoves) > len(self.blackMoves):
+      if (self.totalMoves % 2):
          self.finalScore = (self.whiteMoves[-1].whiteScore, self.whiteMoves[-1].blackScore)
       else: 
          self.finalScore = (self.blackMoves[-1].whiteScore, self.blackMoves[-1].blackScore)
 
    def gatherStats(self, whiteMove, blackMove):
-      if whiteMove.piece:
+      if whiteMove and whiteMove.piece:
          if whiteMove.piece in self.pieceActivity:
             self.pieceActivity[whiteMove.piece] += 1
          else:
             self.pieceActivity[whiteMove.piece] = 1
-      if blackMove.piece:
+      if blackMove and blackMove.piece:
          if blackMove.piece in self.pieceActivity:
             self.pieceActivity[blackMove.piece] += 1
          else:
@@ -55,14 +71,22 @@ class ChessGame(object):
       else:
          return [move for move in self.blackMoves if move.piece == piece]
 
+   def getMove(self, num):
+      if num >= self.totalMoves:
+         return None
+      while num < 0:
+         num += self.totalMoves
+      if (num % 2 == 0):
+         return self.whiteMoves[num/2]
+      else:
+         return self.blackMoves[num/2]
+
    def printMoves(self):
-      for i in range(len(self.whiteMoves)):
-         self.whiteMoves[i].printMove()
-         if self.blackMoves[i]:
-            self.blackMoves[i].printMove()
+      for i in range(self.totalMoves):
+         self.getMove(i).printMove()
 
    def info(self):
-      info = str(len(self.whiteMoves)) + ' moves.\n'
+      info = str(self.totalMoves) + ' moves.\n'
       info += 'Final Score: ' + str(self.finalScore[0]) + '-' + str(self.finalScore[1]) + '\n'
       mostActive = [Piece.name[p] for p in self.mostActivePieces(4)]
       info += 'Most Active Pieces:' + ', '.join(mostActive)
