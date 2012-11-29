@@ -21,17 +21,17 @@ Romeo defeats capulet kill?
    Romeo gets juliet
    Romeo and juliet run away
    END
-      Romeo is Defeated
-      Juliet takes the poison 'dies'
-      Romeo goes to the tomb of juliet not knowing she is still alive
-      Romeo findes paris
-      Romeo and paris fight
-         Romeo dies
-         Juliet wakes up and kills herself
-         END
-            Romeo kills paris
-            Romeo kills himself?
-               juliet wakes and kills herself.
-               END
-                  Juliet wakes and Romeo run away together
-                  END
+Romeo is Defeated
+Juliet takes the poison 'dies'
+Romeo goes to the tomb of juliet not knowing she is still alive
+Romeo findes paris
+Romeo and paris fight
+Romeo dies?
+   Juliet wakes up and kills herself
+   END
+Romeo kills paris
+Romeo kills himself?
+   juliet wakes and kills herself.
+   END
+Juliet wakes and Romeo run away together
+END
