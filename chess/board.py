@@ -12,9 +12,13 @@ class Piece:
             "BLACK_PAWN_A", "BLACK_PAWN_B", "BLACK_PAWN_C", "BLACK_PAWN_D", "BLACK_PAWN_E", "BLACK_PAWN_F", "BLACK_PAWN_G", "BLACK_PAWN_H",
             "BLACK_ROOK_A", "BLACK_KNIGHT_B", "BLACK_BISHOP_C", "BLACK_QUEEN_D", "BLACK_KING_E", "BLACK_BISHOP_F", "BLACK_KNIGHT_G", "BLACK_ROOK_H"]
    abbrev = ["WPa", "WPb", "WPc", "WPd", "WPe", "WPf", "WPg", "WPh",
-                   "WRa", "WNb", "WBc", "WQd", "WKe", "WBf", "WNg", "WRh",
-                   "BPa", "BPb", "BPc", "BPd", "BPe", "BPf", "BPg", "BPh",
-                   "BRa", "BNb", "BBc", "BQd", "BKe", "BBf", "BNg", "BRh"]
+             "WRa", "WNb", "WBc", "WQd", "WKe", "WBf", "WNg", "WRh",
+             "BPa", "BPb", "BPc", "BPd", "BPe", "BPf", "BPg", "BPh",
+             "BRa", "BNb", "BBc", "BQd", "BKe", "BBf", "BNg", "BRh"]
+   ofType = [None, None, None, None, None, None, None, None,
+            "R", "N", "B", "Q", "K", "B", "N", "R",
+            None, None, None, None, None, None, None, None,
+            "R", "N", "B", "Q", "K", "B", "N", "R"]
    value = [1, 1, 1, 1, 1, 1, 1, 1, 
             5, 3, 3, 9, 100, 3, 3, 5,
             1, 1, 1, 1, 1, 1, 1, 1, 
@@ -38,6 +42,18 @@ class Piece:
       if piece < 16:
          return True
       return False
+
+   @staticmethod
+   def getType(piece):
+      return Piece.ofType[piece] 
+
+   @staticmethod
+   def whitePieces():
+      return [p for p in range(0,16) if not (p in deadPieces)]
+
+   @staticmethod
+   def blackPieces():
+      return [p for p in range(16,32) if not (p in deadPieces)]
 
    @staticmethod
    def piecesForType(ptype, isWhite):
@@ -78,6 +94,10 @@ class Board(list):
       self[loc[0]][loc[1]] = piece
 
    def pieceAt(self,loc):
+      if loc[0] < 0 or loc[0] >= 8:
+         return None
+      if loc[1] < 0 or loc[1] >= 8:
+         return None
       return self[loc[0]][loc[1]]
 
    def stringToLoc(self, strloc):

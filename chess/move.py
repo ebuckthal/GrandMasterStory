@@ -13,6 +13,7 @@ class ChessMove(object):
       # individual
       self.moveString = move
       self.notes = ''
+      self.moveNumber = 0
       self.isWhite = isWhite
       self.check = False #True / False for check
       self.mate = False #True / False for checkmate
@@ -23,6 +24,8 @@ class ChessMove(object):
       self.dest = None #destination tuple (col,row)
       self.piece = None #piece being moved
       self.pieceType = None #pieceType Ex. 'Q', 'K'..
+      #features
+      self.features = {}
       #setup
       self.setup(lastMove)
       self.applyMove(move)
@@ -32,6 +35,7 @@ class ChessMove(object):
          self.board = copy.deepcopy(lastMove.board)
          self.whiteScore = lastMove.whiteScore
          self.blackScore = lastMove.blackScore
+         self.moveNumber = lastMove.moveNumber + 1
       else:
          self.board = Board()
 
@@ -42,6 +46,8 @@ class ChessMove(object):
          self.updateBoard()
       elif self.castling:
          self.applyCastling()
+      #TODO handle promotion
+      self.getFeatures()
 
    def parseMove(self, move):
       if 'O-O-O' in move:
@@ -179,6 +185,9 @@ class ChessMove(object):
 
       self.board.setPieceAt(self.dest, self.piece)
 
+   def getFeatures(self):
+      self.features = featureSet(self)
+
    def printBoard(self):
       self.board.printOut([self.piece])
 
@@ -190,6 +199,112 @@ class ChessMove(object):
          print 'Check.'
       if self.mate:
          print 'Check Mate!'
+      if len(self.features):
+         for feat in self.features:
+            print feat + ' : ' + str(self.features[feat])
       print self.notes
       self.printBoard()
       print '-'*40
+
+def featureSet(chessMove):
+   return {'Threatened Pieces': getThreatened(chessMove.board, chessMove.isWhite), 'Targeted Pieces': getThreatened(chessMove.board, not chessMove.isWhite)}
+
+def getThreatened(board, isWhite=True):
+   threat = []
+   if isWhite:
+      pieces = Piece.blackPieces()
+   else:
+      pieces = Piece.whitePieces()
+
+   for p in pieces:
+      threat.extend(getHitlistFor(p, board, not isWhite))
+   s = set(threat)
+   return [Piece.abbreviation(p) for p in s]
+
+def piecesInHorzView(loc, board):
+   pieces = []
+   for c in range(loc[0]+1, 8):
+      p = board.pieceAt( (c, loc[1]) )
+      if (p >= 0):
+         pieces.append(p)
+         break;
+   for c in range(loc[0]-1, -1, -1):
+      p = board.pieceAt( (c, loc[1]) )
+      if (p >= 0):
+         pieces.append(p)
+         break;
+   for r in range(loc[1]+1, 8):
+      p = board.pieceAt( (loc[0], r) )
+      if (p >= 0):
+         pieces.append(p)
+         break;
+   for r in range(loc[1]-1, -1, -1):
+      p = board.pieceAt( (loc[0], r) )
+      if (p >= 0):
+         pieces.append(p)
+         break;
+   return pieces
+
+def piecesInDiagonalView(loc, board):
+   pieces = []
+   for m in range(1, 8-loc[0]):
+      p = board.pieceAt( (loc[0]+m, loc[1]+m) )
+      if (p >= 0):
+         pieces.append(p)
+         break;
+   for m in range(1, 8-loc[0]):
+      p = board.pieceAt( (loc[0]+m, loc[1]-m) )
+      if (p >= 0):
+         pieces.append(p)
+         break;
+   for m in range(-1, -loc[0]-1, -1):
+      p = board.pieceAt( (loc[0]+m, loc[1]+m) )
+      if (p >= 0):
+         pieces.append(p)
+         break;
+   for m in range(-1, -loc[0]-1, -1):
+      p = board.pieceAt( (loc[0]+m, loc[1]-m) )
+      if (p >= 0):
+         pieces.append(p)
+         break;
+   return pieces
+
+def getHitlistFor(piece, board, isWhite):
+   hitlist = []
+   t = Piece.getType(piece)
+   l = board.locationOfPiece(piece)
+   if not l:
+      return []
+   if t == 'R':
+      hitlist.extend( piecesInHorzView(l, board))
+   elif t == 'N':
+      hitlist.append( board.pieceAt( (l[0]+1, l[1]+2) ) )
+      hitlist.append( board.pieceAt( (l[0]-1, l[1]+2) ) )
+      hitlist.append( board.pieceAt( (l[0]+1, l[1]-2) ) )
+      hitlist.append( board.pieceAt( (l[0]-1, l[1]-2) ) )
+      hitlist.append( board.pieceAt( (l[0]+2, l[1]+1) ) )
+      hitlist.append( board.pieceAt( (l[0]+2, l[1]-1) ) )
+      hitlist.append( board.pieceAt( (l[0]-2, l[1]+1) ) )
+      hitlist.append( board.pieceAt( (l[0]-2, l[1]-1) ) )
+   elif t == 'B':
+      hitlist.extend( piecesInDiagonalView(l, board))
+   elif t == 'Q':
+      hitlist.extend( piecesInHorzView(l, board))
+      hitlist.extend( piecesInDiagonalView(l, board))
+   elif t == 'K':
+      for a in range(-1,2):
+         for b in range(-1,2):
+            if (not (a == 0)) or (not (b == 0)):
+               hitlist.append( board.pieceAt( (l[0]+a, l[1]+b) ) )
+   else: #pawn
+      if isWhite:
+         hitlist.append( board.pieceAt( (l[0]-1, l[1]+1) ) )
+         hitlist.append( board.pieceAt( (l[0]+1, l[1]+1) ) )
+      else:
+         hitlist.append( board.pieceAt( (l[0]-1, l[1]-1) ) )
+         hitlist.append( board.pieceAt( (l[0]+1, l[1]-1) ) )
+   s = set(hitlist);
+   return [p for p in s if not p == None and p >= 0 and not Piece.isWhite(p) == isWhite]
+
+
+
