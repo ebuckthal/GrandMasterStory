@@ -1,5 +1,24 @@
+import random
 from move import ChessMove
 from board import Piece
+
+games = []
+
+def loadGameData(dataFile):
+   global games
+   try:
+      games = eval(open(dataFile,"rb").read())
+   except Exception, e:
+      print 'Unable to load gameData.'
+
+loadGameData("chess/gameData.chs")
+
+def randomGame():
+   if games:
+      return ChessGame(random.choice(games))
+   else:
+      print "No games loaded."
+      return None
 
 class ChessGame(object):
    """docstring for ChessGame"""

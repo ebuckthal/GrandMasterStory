@@ -1,10 +1,9 @@
-import random
-from chess.game import ChessGame
-from chess.board import Piece
+#from chess.game import ChessGame
+#from chess.board import Piece
+import chess
 from story import Story
 
-gameDicts = eval(open("gameData.chs","rb").read())
-game = ChessGame(random.choice(gameDicts))
+game = chess.game.randomGame()
 #game.printMoves()
 #print game.info()
 
