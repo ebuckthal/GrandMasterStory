@@ -1,4 +1,4 @@
-import random
+import random, re
 
 class PlotNode(object):
     """An action in the plot"""
@@ -12,4 +12,14 @@ class PlotNode(object):
         
     def generateText(self):
         #optionally pass in features of move for smarter templating
-        return random.choice(self.templates)
+        template = random.choice(self.templates)
+        matches = re.finditer("@[a-zA-Z]*", template)
+        if matches:
+            offset = 0 #offset after inserting or deleting
+            for match in matches:
+                s = match.start(0) + offset
+                e = match.end(0) + offset
+                word = random.choice(self.wordset[match.group(0)])
+                offset += len(word) - len(match.group(0))
+                template = template[:s] + word + template[e:] 
+        return template
