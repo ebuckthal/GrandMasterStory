@@ -13,7 +13,7 @@ class PlotNode(object):
     def generateText(self):
         #optionally pass in features of move for smarter templating
         template = random.choice(self.templates)
-        matches = re.finditer("@[a-zA-Z]*", template)
+        matches = re.finditer("@[a-zA-Z0-9]*", template)
         if matches:
             offset = 0 #offset after inserting or deleting
             for match in matches:
