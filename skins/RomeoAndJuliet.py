@@ -1,4 +1,4 @@
-from plot.node import PlotNode
+import skin
 import plot.features as features
 
 #lists of words used by the templates
@@ -23,11 +23,4 @@ nodes = [
     ('Capulet heard of betrayal',   None,       None)
 ]
 
-def initPlot():
-    plotNodes = []
-    for i in range(len(nodes)):
-        n = nodes[i]
-        plotNodes.append( PlotNode(n[0], n[1], n[2], templates[i], wordset) )
-    return plotNodes
-
-plot = initPlot()
+plot = skin.initPlot(nodes, templates, wordset)

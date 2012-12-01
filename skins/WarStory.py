@@ -1,25 +1,34 @@
-import random
-from plot.node import PlotNode
+import skin
 import plot.features as features
 
-#lists of words used by the templates
+# random options to be used throughout the game
 wordset = { "@KILLED" : ["blown up", "shot", "knifed"],
-            "@BEAUTIFUL" : ["lovely", "beautiful", "gorgeous", "pretty"],
             "@WALKED" : ["strolled", "walked"],
             "@WHILE" : ["While cleaning his gun,", ""],
-            "@PLACE" : ["Bunkers", "Tree"],
-            #constants
+            "@PLACE" : ["Bunkers", "Tree"]
+         }
+
+# chooses a random option at the beginning of th game
+constants = {
             "@LOCATION" : ["Afghanistan", "Korea", "France"],
             "@VILLAIN" : ["Nazis", "Communists", "Russians", "North Koreans", "Storm Troopers"],
             "@CITY" : ["Paris", "Stattenburger", "Hell"],
             "@HOME" : ["'Merican"]
           }
 
-#lists of templates used by the plot nodes
+# maps keys to possible values for a story
+choices = [ (["@CHAR1", "@CHAR2", "@CHAR3"], ["Private Ryan", "Sanchez", "Lieutenant Dan", "Forest", "Bubba"])
+          ]
+
+# lists of templates used by the plot nodes
 templates = [
-    ["""The @VILLAIN were pushing into @LOCATION as part of the biggest military operation in the history of the human race,\
- and everything was about to come to a head in the city of @CITY with a battle over a single bombed-out apartment building."""
-"""@CHAR1 and his platoon was tasked with the thankless job of retaking the building after the @VILLAIN had seized it. \
+["""The @VILLAIN were pushing into @LOCATION as part of the biggest military operation in the history of the human race,\
+ and everything was about to come to a head in the city of @CITY with a battle over a single bombed-out apartment building.""",
+"""In the city of @CITY, @LOCATION the @HOME army was preparing for an incoming invasion of @VILLAIN.\
+ The battle was to focus around a single bombed-out apartment building.""",
+"""Years ago in @LOCATION, as part of a large scale military operation, the @VILLAIN were staging to take over the city of @CITY.\
+ All fighting had came to a head at a single bombed-out apartment building."""],
+["""@CHAR1 and his platoon was tasked with the thankless job of retaking the building after the @VILLAIN had seized it. \
 To get a snapshot of what their mindset was like heading in, it's helpful to know that the assignment was considered an \
 extremely dangerous one by the @HOME army, and that the @HOME army's slogan at the time was "die for the @HOME honor."
 Somehow, the slogan failed to raise morale."""],
@@ -41,45 +50,19 @@ His men were given machine guns, rifles, mortars, barbed-wire, anti-tank mines, 
 ["""Later, @CHAR1's men could boast that they killed more @VILLAIN defending their one\
  building than the French killed in the entire fall of Paris. And unfortunately for French egos,\
  they were still alive to boast--by February 2 the next year, the battle was over.\
- @CHAR1 was named a Hero of @HOME, and the building he defended was made into a monument."""]
+ @CHAR1 was named a Hero, and the building he defended was made into a monument."""]
  ]
 
+# list of plot nodes initialized with name, nextNode indexes, and features
+# the index in this list must correspond to the index of the correct template above
 nodes = [
-    # list of plot nodes initialized with name, templates, nextNodeID, and features
-    ('Introduction', [1], None),
-    ('Defend', [2], None),
-    ('Reinforements', [3], None),
-    ('Char 2', [4], None),
-    ('Deaths', [5], None),
+    ('Setting', [1], None),
+    ('Introduction', [2], None),
+    ('Defend', [3], None),
+    ('Reinforements', [4], None),
+    ('Char 2', [5], None),
+    ('Deaths', [6], None),
     ('Conclusion', None, None)
 ]
 
-names = ["Private Ryan", "Sanchez", "Lieutenant Dan", "Forest", "Bubba"]
-
-def getName():
-    name = random.choice(names)
-    names.remove(name)
-    return name
-
-def makeConstant(key):
-    wordset[key] = [random.choice(wordset[key])]
-
-def initConstants():
-    wordset["@CHAR1"] = [getName()]
-    wordset["@CHAR2"] = [getName()]
-    wordset["@CHAR3"] = [getName()]
-    makeConstant("@LOCATION");
-    makeConstant("@VILLAIN");
-    makeConstant("@CITY");
-    makeConstant("@HOME");
-
-
-def initPlot():
-    initConstants()
-    plotNodes = []
-    for i in range(len(nodes)):
-        n = nodes[i]
-        plotNodes.append( PlotNode(n[0], n[1], n[2], templates[i], wordset) )
-    return plotNodes
-
-plot = initPlot()
+plot = skin.initPlot(nodes, templates, wordset, constants, choices)
