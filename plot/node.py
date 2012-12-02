@@ -10,7 +10,14 @@ class PlotNode(object):
         self.templates = templates
         self.wordset = wordset
         
-    def generateText(self):
+    def getReplacementForTag(self, tag, gameFeatures=None):
+        if gameFeatures and (tag in gameFeatures):
+            print tag, gameFeatures[tag]
+            if gameFeatures[tag] in self.wordset:
+                tag = gameFeatures[tag]
+        return random.choice(self.wordset[tag])
+
+    def generateText(self, gameFeatures=None):
         #optionally pass in features of move for smarter templating
         template = random.choice(self.templates)
         matches = re.finditer("@[a-zA-Z0-9]*", template)
@@ -19,7 +26,8 @@ class PlotNode(object):
             for match in matches:
                 s = match.start(0) + offset
                 e = match.end(0) + offset
-                word = random.choice(self.wordset[match.group(0)])
+                tag = match.group(0)
+                word = self.getReplacementForTag(tag, gameFeatures)
                 offset += len(word) - len(match.group(0))
                 template = template[:s] + word + template[e:] 
         return template

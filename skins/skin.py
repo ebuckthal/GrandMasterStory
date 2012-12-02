@@ -13,7 +13,7 @@ def initWordset(wordset, constants, choices):
     if (choices):
         for (keys, options) in choices:
             for key in keys:
-                wordset[key] = getChoice(options)
+                wordset[key] = [getChoice(options)]
 
 def initPlot(nodes, templates, wordset, constants=None, choices=None):
     initWordset(wordset, constants, choices)
