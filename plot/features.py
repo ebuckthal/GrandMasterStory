@@ -1,0 +1,5 @@
+DEATH = "death"
+CHECK = "check"
+DEFEAT = "checkMate"
+TRAVEL = "travel"
+TRAVEL_FAR = "travelFar"

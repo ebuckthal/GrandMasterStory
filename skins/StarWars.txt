@@ -1,0 +1,28 @@
+Leia sends R2D2 to find Obi
+Leia is captured
+Luke Finds R2D2 and leaves home to find Ben
+if Vadar follows R2D2
+   Vadar destroys luke's home looking for R2D2
+   Luke comes back with Ben to find Home destroyed
+Vadar tries to get leia to tell him where the rebal base is destroys alderaan
+if leia breaks
+   leia tells vadar where the rebal base is
+Luke travels to find a ship to take ben and him to alderaan. 
+Luke mets Han
+Han, Chewie, Ben and Luke travel to alderaan but its is gone.
+if They are captured by the death star
+else the sneak into the death star
+Luke uses the force and feels that leia is on board the death star.
+They split up. Ben goes for the tractor beem, Luke, han, chewie goes for leia.
+Luke finds leia.
+if Ben destroys the tractor beem.
+   Ben fights vadar loses.
+   They are all captured 
+   End
+Ben fights with vadar and vanaishes.
+Luke, Han, Leia, Chewie escape to the rebal base
+if vadar has a tracker on the ship
+   They lead Vadar to the rebal base.
+The rebals analyse the death star plans that r2d2 had and prepare for an all out attack on the death star.
+
+
