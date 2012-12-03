@@ -77,9 +77,9 @@ class ChessGame(object):
             self.pieceActivity[blackMove.piece] = 1
 
    def getMoveTuples(self):
-      moves = [(self.whiteMoves[i].moveNumber, self.blackMoves[i].moveNumber) for i in range(len(self.blackMoves))]
+      moves = [(self.whiteMoves[i], self.blackMoves[i]) for i in range(len(self.blackMoves))]
       if len(self.whiteMoves) > len(self.blackMoves):
-         moves.append((self.whiteMoves[-1].moveNumber, None))
+         moves.append((self.whiteMoves[-1], None))
       return moves
 
    def mostActivePieces(self, num):

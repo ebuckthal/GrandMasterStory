@@ -27,9 +27,17 @@ def getFeatures(moves):
   bfeatures = [] 
   wheros = []
   bheros = []
+  wfeatureWeights[DRAMATIC] = 0
+  wfeatureWeights[DANGER] = 0
+  wfeatureWeights[TRAVEL] = 0
+  bfeatureWeights[DRAMATIC] = 0
+  bfeatureWeights[DANGER] = 0
+  bfeatureWeights[TRAVEL] = 0
   for i in range(len(moves)):
-    move_tup = game.getMove(i)
+    move_tup = moves[i]
     for move in move_tup:
+      if (not move):
+        continue
       if move.isWhite:
          wfeatureWeights[DRAMATIC] += getDramaticWeight(move)
          wfeatureWeights[DANGER] += getDangerWeight( move )
@@ -43,17 +51,17 @@ def getFeatures(moves):
       if death == 1:
         if move.isWhite:
           wfeatures.append( UNIMPORTANT_DEATH )
-          bfeatures.append( UNIMPORTANT_kill )
+          bfeatures.append( UNIMPORTANT_KILL )
         else:
           bfeatures.append( UNIMPORTANT_DEATH )
-          wfeatures.append( UNIMPORTANT_kill )
+          wfeatures.append( UNIMPORTANT_KILL )
       if death > 1:
         if move.isWhite:
           wfeatures.append( IMPORTANT_DEATH )
-          bfeatures.append( IMPORTANT_kill )
+          bfeatures.append( IMPORTANT_KILL )
         else:
           bfeatures.append( IMPORTANT_DEATH )
-          wfeatures.append( IMPORTANT_kill )
+          wfeatures.append( IMPORTANT_KILL )
 
       if getCheckWeight(move) > 0:
         if move.isWhite:
@@ -68,17 +76,17 @@ def getFeatures(moves):
         else:
           bfeatures.append( SAFTY )
           wfeatures.append( DEFEAT )
-     if move.capture:
-       if move.isWhite:
-         if move.capture in wheros:
-           wfeatures.append(HERO)
-         else:
-           bheros.append( move.capture )
-       else:
-         if move.capture in bheros:
-           bfeatures.append(HERO)
-         else:
-           bheros.append( move.capture )
+      if move.capture:
+        if move.isWhite:
+          if move.capture in wheros:
+            wfeatures.append(HERO)
+          else:
+            bheros.append( move.capture )
+        else:
+          if move.capture in bheros:
+            bfeatures.append(HERO)
+          else:
+            bheros.append( move.capture )
          
 
   if bfeatureWeights[DRAMATIC] / len(moves) > 3:
