@@ -1,6 +1,6 @@
 import random, math
 from node import PlotNode
-import features 
+import chess.features as features 
 import re
 
 class PlotIterator(object):
@@ -31,6 +31,7 @@ class PlotIterator(object):
       total += count
 
   def chooseNodeWithMoves(self, nodeIds, moves):
+    print features.getFeatures(moves)
     return self.plotNodes[random.choice(nodeIds)]
 
   def getNextNode(self, currentNode):
