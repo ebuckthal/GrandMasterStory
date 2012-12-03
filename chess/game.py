@@ -30,27 +30,27 @@ class ChessGame(object):
       self.totalMoves = 0
       self.pieceActivity = {}
       self.finalScore = (0,0)
-      self.setup()
+      self.__setup__()
 
-   def setup(self):
+   def __setup__(self):
       lastMove = None
       for move in self.gameDict['moves'][:-1]:
          if len(self.blackMoves) > 0:
             lastMove = self.blackMoves[-1]
          whiteMove = ChessMove(move[0], lastMove)
          blackMove = ChessMove(move[1], whiteMove, False)
-         self.gatherStats(whiteMove,blackMove)
+         self.__gatherStats__(whiteMove,blackMove)
          self.whiteMoves.append(whiteMove)
          self.blackMoves.append(blackMove)
 
       # handle last move (contains results)
       move = self.gameDict['moves'][-1:][0]
-      whiteMove = ChessMove(move[0], lastMove)
+      whiteMove = ChessMove(move[0], self.blackMoves[-1])
       if len(move) > 2:
          blackMove = ChessMove(move[1], whiteMove, False)
       else:
          blackMove = None
-      self.gatherStats(whiteMove,blackMove)
+      self.__gatherStats__(whiteMove,blackMove)
       self.whiteMoves.append(whiteMove)
       if blackMove:
          self.blackMoves.append(blackMove)
@@ -64,7 +64,7 @@ class ChessGame(object):
       else: 
          self.finalScore = (self.blackMoves[-1].whiteScore, self.blackMoves[-1].blackScore)
 
-   def gatherStats(self, whiteMove, blackMove):
+   def __gatherStats__(self, whiteMove, blackMove):
       if whiteMove and whiteMove.piece:
          if whiteMove.piece in self.pieceActivity:
             self.pieceActivity[whiteMove.piece] += 1
@@ -75,6 +75,12 @@ class ChessGame(object):
             self.pieceActivity[blackMove.piece] += 1
          else:
             self.pieceActivity[blackMove.piece] = 1
+
+   def getMoveTuples(self):
+      moves = [(self.whiteMoves[i].moveNumber, self.blackMoves[i].moveNumber) for i in range(len(self.blackMoves))]
+      if len(self.whiteMoves) > len(self.blackMoves):
+         moves.append((self.whiteMoves[-1].moveNumber, None))
+      return moves
 
    def mostActivePieces(self, num):
       activityTuples = [(p, self.pieceActivity[p]) for p in self.pieceActivity]
