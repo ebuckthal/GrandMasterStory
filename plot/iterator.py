@@ -5,12 +5,13 @@ import re
 
 class PlotIterator(object):
   """Iterates through the plot tree"""
-  def __init__(self, plotNodes, chessGame):
+  def __init__(self, plotNodes, chessGame=None):
     super(PlotIterator, self).__init__()
     self.plotNodes = plotNodes
     self.game = chessGame
-    self.weightList = features.getWeightVector(chessGame) 
-    
+    if (chessGame):
+      self.weightList = features.getWeightVector(chessGame) 
+
   def searchNode(self, node, ):
     """Takes in a starting node initially and recursively 
     descends a plot tree looking for end story nodes. When an 
@@ -74,21 +75,27 @@ class PlotIterator(object):
     story = ""
     if self.plotNodes:
       currentNode = self.plotNodes[0]
-      for i in range(self.game.totalMoves):
-        print "Generate Story Iteration %s" % i
-        story += currentNode.generateText() + '\n'
-        nextNodeId = self.chooseNextNode(currentNode.nextNodes)
-        currentNode = self.plotNodes[nextNodeId]
-        if self.plotNodes[nextNodeId].nextNodes is None:
-          break
-      # More plot items than significant moves
-      if currentNode.nextNodes:
-        path = self.findClosestEnd(currentNode)
-        for step in path:
+      if (self.game):
+        for i in range(self.game.totalMoves):
+          print "Generate Story Iteration %s" % i
           story += currentNode.generateText() + '\n'
-          currentNode = self.plotNodes[currentNode.nextNodes[step]]
-        assert currentNode.nextNodes is None
-
+          nextNodeId = self.chooseNextNode(currentNode.nextNodes)
+          currentNode = self.plotNodes[nextNodeId]
+          if self.plotNodes[nextNodeId].nextNodes is None:
+            break
+        # More plot items than significant moves
+        if currentNode.nextNodes:
+          path = self.findClosestEnd(currentNode)
+          for step in path:
+            story += currentNode.generateText() + '\n'
+            currentNode = self.plotNodes[currentNode.nextNodes[step]]
+          assert currentNode.nextNodes is None
+      else: # no chess game
+        while (currentNode.nextNodes):
+          story += currentNode.generateText() + '\n'
+          nextNodeId = random.choice(currentNode.nextNodes)
+          currentNode = self.plotNodes[nextNodeId]
+      #generate last node's text
       story += currentNode.generateText() + '\n'
     else:
       print "Error: no plot"
