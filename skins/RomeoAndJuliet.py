@@ -10,8 +10,8 @@ wordset = {"@KILLED" : ["slayed", "killed"],
 templates = [
 ["""Intro."""],
 
-["""As Benvolio strolled down a street in Verona, hewas waylayed by a rogue group of Capulet \
-thugs. "Thou art tresspassing on Capulet grounds!", shrieked the thugs as they stabbed his \
+["""As Benvolio strolled down a street in Verona, he was waylaid by a rogue group of Capulet \
+thugs. "Thou art trespassing on Capulet grounds!", shrieked the thugs as they stabbed his \
 limp body and celebrated their victory."""],
 
 ["""Benvolio was one of the most prominent Montague members. A strong-willed, beautiful, and \
@@ -22,14 +22,14 @@ He valiantly drew his dagger and slashed down two Capulet thugs before taking a 
 stomach from Tybalt. "My only regret is my one life to give for the Montague name," he spat \
 with his last breath."""],
 
-["""The lovestricken Romeo pleaded with his father to court the lovely Juliet. However, \
+["""The love-stricken Romeo pleaded with his father to court the lovely Juliet. However, \
 Montague, still grieving after the loss of Benvolio, forbade Romeo from venturing \
 anywhere near Capulet territory."""],
 
 ["""Meanwhile, Romeo distanced himself from the ongoing conflict. He hated the bloodshed \
 between the two families and he had completely lost himself after catching the eye of \
 the fair Capulet daughter, Juliet. His father forbade the love between the two, but to \
-Romeo that made the idea of Juliet titilating and rebellious. His father ordered Romeo \
+Romeo that made the idea of Juliet titillating and rebellious. His father ordered Romeo \
 to remain in the Montague household especially to protect Romeo who would face certain \
 death if a Capulet discovered his love."""],
 
@@ -42,7 +42,7 @@ balcony as he scurries in the brush below. "Wherefore are thou Romeo!" sang Juli
 am here, fair lady!" replied Romeo. Their eyes locked in a deep love-filled gaze, but a \
 rustling in the shadows frightened Romeo to retreat."""],
 
-["""Capulet's wife heard Juliet's brief dialog with Romeo and knew he daughtered must \
+["""Capulet's wife heard Juliet's brief dialog with Romeo and knew he daughter must \
 be punished fro such insolence. She tells her husband, the Capulet patriarch, of the \
 meeting."""],
 
@@ -71,11 +71,11 @@ His clothing is from the servant's quarters and disguises himself, but Capulet \
 follows him up the street to a trap. Luckily for Romeo, his father is alerted of \
 his absence. "This letter says he will be in the city plaza at dusk, and it's dusk \
 now! Get out there and get my men!" Montague says as he rushes out to find his son. \
-He see's Capulet and his men around Romeo but jumps in with swords to defend his \
+He sees Capulet and his men around Romeo but jumps in with swords to defend his \
 family. The two patriarchs quarrel briefly with daggers drawn."""],
 
 ["""A bright flash stuns Montague just as reinforcements from the family arrive, but \
-Capulet lunges and slices Montagues hand, rendering him unable to fight and allowing \
+Capulet lunges and slices Montague's hand, rendering him unable to fight and allowing \
 Capulet and his men to escape."""],
 
 [""""This isn't the time to fight, Capulet!" Montague shouts. We shouldn't be fighting \
@@ -94,7 +94,7 @@ between his daughter Juliet and the Count Paris."""],
 
 ["""Capulet and Juliet bicker over her obsession with Romeo! "But father this \
 transcends the silly quarrel between you and Montague. Romeo and I are destined \
-for eachother!" Capulet orders Juliet to remain in the fortress and arranges for \
+for each other!" Capulet orders Juliet to remain in the fortress and arranges for \
 her marriage to the Count Paris. Juliet is furious, "You can't do this! My live is \
 but my own!" """],
 
@@ -123,7 +123,7 @@ the Capulet family, stabs Mercutio and slowly watches him die."""],
 ["""In the night, Romeo's cousin Mercutio is out with no regard for the family curfew. \
 He runs into the Capulet thug Tybalt and the two exchange nasty words. "You be \
 at the end of my dagger for what happened to Benvolio!" Mercutio tells Tybalt. \
-Tybalt is offended and the two lunge at eachother. A couple of clashes of dagger \
+Tybalt is offended and the two lunge at each other. A couple of clashes of dagger \
 foreshadow Tybalt's fatal stabbing of Mercutio. "I have perished!" Mercutio \
 pants as he slowly falls to the ground."""],
 
@@ -185,7 +185,7 @@ quickly imbibes the poison."""],
 There is an attempt to escape and Romeo dashes, but is caught in Capulet's dagger. \
 He falls to the ground as Capulet stands over him. His leg is badly injured and \
 Capulet's immense force stands above him. "This treachery with the Montague's has \
-gone on far too long. Your defeat will be a message that this city is our's and \
+gone on far too long. Your defeat will be a message that this city is ours and \
 there is no way we are willing to give up." Just then a dozen Capulet thugs wrap \
 around the fight and drag the damaged Romeo away. Juliet is heartbroken. She cannot \
 think to see Romeo's dying body and takes the poison herself. "I cannot be in this \
@@ -220,8 +220,8 @@ nodes = [
     ('3Montague forbids',            [5,6,7,8,9,10],      None),
     ('4Montague forbids d',          [5,6,7,8,9,10],      [features.DRAMATIC]),
 
-    ('5Romeo visits Juliet',         [7,8,9,10],      None),
-    ('6Romeo visits Juliet d',       [7,8,9,10],      [features.DRAMATIC]),
+    ('5Romeo visits Juliet',         [7,8,9,10],      features.TRAVEL),
+    ('6Romeo visits Juliet d',       [7,8,9,10],      [features.TRAVEL, features.DRAMATIC]),
 
     ('7capulet wife sees Romeo',     [9,10],     None),
     ('8capulet wife sees Romeo D',   [9,10],     [features.DRAMATIC]),
@@ -244,8 +244,8 @@ nodes = [
     ('19romeo hears j marriage',      [21,22],    None),
     ('20romeo hears j marriage d',    [21,22],    [features.DRAMATIC]),
 
-    ('21romeo decides to run',        [23,24,29,30],    None),
-    ('22romeo decides to run d',      [23,24,29,30],    [features.DRAMATIC]),
+    ('21romeo decides to run',        [23,24,29,30],    [features.TRAVEL]),
+    ('22romeo decides to run d',      [23,24,29,30],    [features.TRAVEL, features.DRAMATIC]),
 
     ('23romeo sees mercutio die',     [25,26,27,28],    [features.DEATH]),
     ('24romeo sees mercutio die d',   [25,26,27,28],    [features.DEATH, features.DRAMATIC]),
@@ -259,17 +259,17 @@ nodes = [
     ('29juliet gets poison',          [31,32],    None),
     ('30juliet gets poison d',        [31,32],    [features.DRAMATIC]),
 
-    ('31romeo goes to juliet',        [33,34],    None),
-    ('32romeo goes to juliet d',      [33,34],    [features.DRAMATIC]),
+    ('31romeo goes to juliet',        [33,34],    [features.TRAVEL]),
+    ('32romeo goes to juliet d',      [33,34],    [features.TRAVEL, features.DRAMATIC]),
 
     ('33romeo is confronted by c',    [35,36,37,38,39,40],    None),
-    ('34romeo is confronted by c d',   [35,36,37,38,39,40],    [features.DRAMATIC]),
+    ('34romeo is confronted by c d',  [35,36,37,38,39,40],    [features.DRAMATIC]),
 
     ('35romeo is scared' ,            [37,38,39,40],    None),
     ('36romeo is scared d',           [37,38,39,40],    [features.DRAMATIC]),
 
-    ('37romeo defeats capulet',       None,    None),
-    ('38romeo defeats capulet d',     None,    [features.DRAMATIC]),
+    ('37romeo defeats capulet',       None,    [features.DEATH]),
+    ('38romeo defeats capulet d',     None,    [features.DEATH, features.DRAMATIC]),
 
     ('39capulet defeats romeo',       None,    None),
     ('40capulet defeats romeo',       None,    [features.DRAMATIC]),
