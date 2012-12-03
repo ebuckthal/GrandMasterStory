@@ -1,11 +1,20 @@
-# Feature Enums
-PATH = "death"
+# Plot Features
+DEATH = "death"
 CHECK = "check"
 DEFEAT = "checkMate"
 TRAVEL = "travel"
 TRAVEL_FAR = "travelFar"
 DRAMATIC = "dramatic"
 
+# Game features - used for word substitution in skins
+DEATHOF = "@DEATHOF" #stores features.pieceType value
+# Game Pieces
+PAWN = "@PAWN"
+ROOK = "@ROOK"
+KNIGHT = "@KNIGHT"
+BISHOP = "@BISHOP"
+QUEEN = "@QUEEN"
+KING = "@KING"
 
 def getWeightVector(game): 
   weightVector = []
