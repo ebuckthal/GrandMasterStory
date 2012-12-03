@@ -6,6 +6,7 @@ from chess.board import Piece
 # Plot Features
 
 DRAMATIC = "dramatic"
+DANGER = 'danger'
 HERO = 'hero'
 TRAVEL = 'travel'
 IMPORTANT_DEATH = 'importantDeath'
@@ -14,7 +15,6 @@ IMPORTANT_KILL = 'importantKill'
 UNIMPORTANT_KILL = 'unimportantKill'
 DEFEAT = 'defeat'
 SAFTY = 'safty'
-DANGER = 'danger'
 CHECK = "check"
 
 #list of tuples of moves
@@ -25,14 +25,18 @@ def getFeatures(moves):
   wfeatureWeights = {}
   wfeatures = [] 
   bfeatures = [] 
+  wheros = []
+  bheros = []
   for i in range(len(moves)):
     move_tup = game.getMove(i)
     for move in move_tup:
       if move.isWhite:
          wfeatureWeights[DRAMATIC] += getDramaticWeight(move)
+         wfeatureWeights[DANGER] += getDangerWeight( move )
          wfeatureWeights[TRAVEL] += getTravelWeight(move)
       else:
          bfeatureWeights[DRAMATIC] += getDramaticWeight(move)
+         bfeatureWeights[DANGER] += getDangerWeight( move )
          bfeatureWeights[TRAVEL] += getTravelWeight(move)
 
       death = getDeathWeight( move )
@@ -64,6 +68,18 @@ def getFeatures(moves):
         else:
           bfeatures.append( SAFTY )
           wfeatures.append( DEFEAT )
+     if move.capture:
+       if move.isWhite:
+         if move.capture in wheros:
+           wfeatures.append(HERO)
+         else:
+           bheros.append( move.capture )
+       else:
+         if move.capture in bheros:
+           bfeatures.append(HERO)
+         else:
+           bheros.append( move.capture )
+         
 
   if bfeatureWeights[DRAMATIC] / len(moves) > 3:
     bfeatures.append( DRAMATIC )
@@ -73,28 +89,18 @@ def getFeatures(moves):
     bfeatures.append( TRAVEL )
   if wfeatureWeights[TRAVEL] / len(moves) > 2:
     wfeatures.append( TRAVEL )
+  if bfeatureWeights[DANGER] / len(moves) > 3:
+    bfeatures.append( DANGER )
+  if wfeatureWeights[DANGER] / len(moves) > 3:
+    wfeatures.append( DANGER )
   
   return (set(wfeatures), set(bfeatures))
     
 
-#dramatic is 0 to 7 
 def getDramaticWeight(move):
-   rate = 0
-   features = move.features
-   threat = len( move.features["Threatened Pieces"] )
-   target = len( move.features["Targeted Pieces"] )
-   if threat > 1:
-      rate +=2
-   if threat > target:
-      rate += 2
-
-   if move.castling != None:
-      rate += 1
-   if move.whiteScore > move.blackScore and move.isWhite:
-      rate += 2
-   if move.whiteScore < move.blackScore and not move.isWhite:
-      rate += 2
-   return rate
+   return len( move.features["Threatened Pieces"] )
+def getDangerWeight(move):
+   return len( move.features["Targeted Pieces"] )
 
 #Death weight is 0-9 or 100
 def getDeathWeight(move):
