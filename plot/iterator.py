@@ -70,6 +70,19 @@ class PlotIterator(object):
     for key in aggregateStats:
       print aggregateStats[key]
 
+  def generatePlot(self):
+    plot = ""
+    if self.plotNodes:
+      currentNode = self.plotNodes[0]
+      while (currentNode.nextNodes):
+          plot += currentNode.name + '\n'
+          nextNodeId = random.choice(currentNode.nextNodes)
+          currentNode = self.plotNodes[nextNodeId]
+      plot += currentNode.name + '\n'
+    else:
+      print "Error: no plot"
+    return plot
+
 
   def generateStory(self, debug=False):
     story = ""
