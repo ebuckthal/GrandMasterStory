@@ -26,10 +26,6 @@ templates = [
         Montague, still grieving after the loss of Benvolio, forbade Romeo from venturing \
         anywhere near Capulet territory."""],
 
-    ["""The lovestricken Romeo pleaded with his father to court the lovely Juliet. However, \
-        Montague, still grieving after the loss of Benvolio, forbade Romeo from venturing anywhere \
-        near Capulet territory."""],
-
     ["""Meanwhile, Romeo distanced himself from the ongoing conflict. He hated the bloodshed \
         between the two families and he had completely lost himself after catching the eye of \
         the fair Capulet daughter, Juliet. His father forbade the love between the two, but to \
