@@ -112,7 +112,7 @@ class ChessGame(object):
       return info
 
    def gameStats(self):
-      moves = gameDict['moves']
+      moves = self.gameDict['moves']
       stats = {}     
 
       # checks
