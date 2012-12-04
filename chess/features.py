@@ -14,7 +14,7 @@ UNIMPORTANT_DEATH = 'unimportantDeath'
 IMPORTANT_KILL = 'importantKill'
 UNIMPORTANT_KILL = 'unimportantKill'
 DEFEAT = 'defeat'
-SAFTY = 'safty'
+SAFETY = 'safety'
 CHECK = "check"
 
 #list of tuples of moves
@@ -71,10 +71,10 @@ def getFeatures(moves):
 
       if getDefeatWeight( move ) > 0:
         if move.isWhite:
-          wfeatures.append( SAFTY )
+          wfeatures.append( SAFETY )
           bfeatures.append( DEFEAT )
         else:
-          bfeatures.append( SAFTY )
+          bfeatures.append( SAFETY )
           wfeatures.append( DEFEAT )
       if move.capture:
         if move.isWhite:

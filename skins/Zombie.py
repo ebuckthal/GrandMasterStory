@@ -1,5 +1,5 @@
 import skin
-import plot.features as features
+import chess.features as features
 
 #lists of words used by the templates
 wordset = {
@@ -7,6 +7,32 @@ wordset = {
 
 #lists of templates used by the plot nodes
 templates = [
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+""
 ]
 
 nodes = [
@@ -60,7 +86,7 @@ nodes = [
   
   ("12 ted got his arm bit off so we had to kill him before he turned into a zombie", \
     [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], \
-    [features.IMPORTANT_DEATH, features.DANGER])\
+    [features.IMPORTANT_DEATH, features.DANGER]),\
   
   ("13 we are running low on the cheese we'd found from the cheese factory we're hiding in", \
     [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], \
@@ -74,17 +100,17 @@ nodes = [
     [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], \
     [features.DANGER, features.HERO, features.UNIMPORTANT_KILL]), \
   
-  ("ted sees the zombie queen in the lair. We break in a kill several zombies, but ted dies when the queen gets him." \
+  ("ted sees the zombie queen in the lair. We break in a kill several zombies, but ted dies when the queen gets him.", \
     [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], \
     [features.HERO, features.UNIMPORTANT_KILL, features.IMPORTANT_DEATH, features.IMPORTANT_KILL, features.DRAMATIC]), \
   
   ("17 Ted bravely sacrifices himself to save the team", \
     [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], \
-    [features.HERO, features.IMPORTANT_KILL, features.IMPORTANT_DEATH, features.DRAMATIC, features.TRAVEL]) \
+    [features.HERO, features.IMPORTANT_KILL, features.IMPORTANT_DEATH, features.DRAMATIC, features.TRAVEL]), \
 
   ("18 We kill the zombie overload and flowers shoot out of every zombie's eyeballs", \
     None, \
-    [features.SAFETY])
+    [features.SAFETY]),
 
   ("19 The zombie eat every last one of us. Ted is eaten by princess rainicorn.", \
     None, \

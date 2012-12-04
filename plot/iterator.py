@@ -32,6 +32,8 @@ class PlotIterator(object):
 
   def chooseNodeWithMoves(self, nodeIds, moves):
     print features.getFeatures(moves)
+    for nodeId in nodeIds:
+      print self.plotNodes[nodeId].features
     return self.plotNodes[random.choice(nodeIds)]
 
   def getNextNode(self, currentNode):
