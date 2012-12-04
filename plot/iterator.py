@@ -31,16 +31,35 @@ class PlotIterator(object):
       total += count
 
   def chooseNodeWithMoves(self, nodeIds, moves):
-    print features.getFeatures(moves)
+    moveFeatures = features.getFeatures(moves)
+    print moveFeatures
+    bestMatch = None 
+    bestScore = -100
     for nodeId in nodeIds:
-      print self.plotNodes[nodeId].features
-    return self.plotNodes[random.choice(nodeIds)]
+      score = 0
+      nodeFeatures = self.plotNodes[nodeId].features
+      for feat in nodeFeatures:
+         if feat in moveFeatures[0]:
+            score += 1
+      score -= math.fabs( len(nodeFeatures) - len(moveFeatures[0]) )
+#print score, nodeId, nodeFeatures, self.plotNodes[nodeId].name 
+      if score > bestScore:
+         bestScore = score
+         bestMatch = [self.plotNodes[nodeId]]
+      elif score == bestScore:
+         bestMatch.append( self.plotNodes[nodeId] )
+
+    r = random.choice( bestMatch )
+    print r.name
+    return r 
 
   def getNextNode(self, currentNode):
     if (self.game):
       # Get set of chess moves for plot depth
       if self.plotDepth < self.maxDepth -1:
         self.plotDepth += 1
+      else:
+        return
       moveGroup = self.moveGroups[self.plotDepth]
       # use the group of moves to make decision
       return self.chooseNodeWithMoves(currentNode.nextNodes, moveGroup)
