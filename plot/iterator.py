@@ -5,13 +5,14 @@ import re
 
 class PlotIterator(object):
   """Iterates through the plot tree"""
-  def __init__(self, plotNodes, chessGame=None, whitesView=True, plotDepth=15, debug=False):
+  def __init__(self, plotNodes, chessGame=None, whitesView=True, plotDepth=15, separator='\n', debug=False):
     super(PlotIterator, self).__init__()
     self.plotNodes = plotNodes
     self.game = chessGame
     self.maxDepth = plotDepth
     self.plotDepth = 0
     self.whitesView = whitesView
+    self.separator = separator
     self.debug = debug
     if (chessGame):
       self.__setupGame__()
@@ -99,10 +100,10 @@ class PlotIterator(object):
     story = ""
     if self.plotNodes:
         currentNode = self.plotNodes[0]
-        story += currentNode.generateText() + '\n'
+        story += currentNode.generateText() + self.separator
         while (currentNode.nextNodes):
             currentNode = self.getNextNode(currentNode)
-            story += currentNode.generateText() + '\n'
+            story += currentNode.generateText() + self.separator
     else:
       print "Error: no plot"
     return story
