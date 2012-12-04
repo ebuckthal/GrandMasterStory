@@ -4,18 +4,18 @@ import chess.features as features
 # random options to be used throughout the game
 wordset = { "@ALIVECHAR" : ["@KILLCHAR"],
             "@ALLCHAR" : ["@CHAR1, @CHAR2, @CHAR3, and @CHAR4"],
-            "@TOWN" : ["town"],
-            "@ZOMBIE" : ["zombie"],
+            "@TOWN" : ["Paris", "London", "New York", "San Luis Obispo"],
+            "@ZOMBIE" : ["Spitter Zombie", "Tank Zombie", "Charger Zombie", "Smoker Zombie"],
             "@KILLCHAR" : ["a person"]
          }
 
 # chooses a random option at the beginning of th game
 constants = {
-            "@BUILDING" : ["single bombed-out apartment building", "run-down hospital"],
+            "@BUILDING" : ["single bombed-out apartment building", "run-down hospital", "police station"],
           }
 
 # maps keys to possible values for a story
-choices = [ (["@CHAR1", "@CHAR2", "@CHAR3", "@CHAR4"], ["Mike", "Eric", "Nick", "Connor", "Bob", "Sally"])
+choices = [ (["@CHAR1", "@CHAR2", "@CHAR3", "@CHAR4"], ["Mike", "Eric", "Nick", "Connor", "Ted", "Fooad"])
           ]
 
 resources = {"@KILLCHAR" : ["@CHAR1", "@CHAR2", "@CHAR3", "@CHAR4"]
@@ -26,28 +26,41 @@ resources = {"@KILLCHAR" : ["@CHAR1", "@CHAR2", "@CHAR3", "@CHAR4"]
 templates = [
 ["@ALLCHAR, were the only surviving humans in @TOWN. They decided they needed to venture \
 out of the @BUILDING they were hiding in to find food and ammunition."],
+#boarding
 ["The wind kicked up and @ALIVECHAR shivered."],
+#danager
 ["Out of nowhere the group was cornered by a @ZOMBIE."],
 #dramatic
-["@ALIVECHAR stumbles across a hidden cache of weapons."],
+["@ALIVECHAR stumbles across a hidden cache of weapons and ammunition."],
 #hero
-["@ALIVECHAR manages to kill a @ZOMBIE and a @ZOMBIE while saving @ALIVECHAR from a gruesome death."],
+["There was a loud bang as a @ZOMBIE with a whole horde of zomibes crashed threw the wall be @ALIVECHAR and @ALIVECHAR pinning them to the wall. In an amazing show of bravery @ALIVECHAR shot the zomibies pinning them to the wall and saved everyone."],
 #important kill
-["@ALIVECHAR bludgeons to death a @ZOMBIE."],
+["@ALIVECHAR manages to bludgeons to death a @ZOMBIE with his bear hands."],
 #UNIMPORTANT_KILL
-["@ALIVECHAR wounds a @ZOMBIE with his crossbow."],
+["@ALIVECHAR is supprised by a @ZOMBIE and bearly manages to wound it with his crossbow before managing to get away."],
 #IMPORTANT_DEATH", \
-["@KILLCHAR gets torn to shreds by a zombie."],
+["A hudge @ZOMBIE threw @KILLCHAR to the ground and tore off his head."],
 #UNIMPORTANT_DEATH", \
 ["@ALIVECHAR gets severely wounded by a zombie."],
 #TRAVEL
-["The goup travels to the neareset building."],
+["@ALLCHAR charge in to a @BUILDING that was accross the street."],
 #CHECK
-["They are mere feet from the helicopter pad."],
+["Off in the distance, the group sees a boat tied to the dock. They desiced to try and take it to safety."],
 #SAFETY
-["The group enters the helicopter and flies away to safety."],
+["@ALLCHAR stumble exaushed on to the boat and sail off the coast leaving behind the hordes of zomibes trying to eat them."],
 #Defeat
-["They are surrounded by zombies and one by one torn to shreds."]
+["Suddenly the group is cornered by the biggest horde of zombies that they have ever seen lead by a @ZOMBIE. @ALLCHAR are torn apart brutally and killed."]
+#boarding
+["A cloud moved to block the moon. It got unbarably dark."]
+#boarding
+["The group heard a growl and froze."]
+#important kill, Travel
+["
+#CHECK, important kill
+#Dramatic, important kill
+#danager, dramatic
+#important kill, unimportant death
+
 ]
 
 nodes = [
