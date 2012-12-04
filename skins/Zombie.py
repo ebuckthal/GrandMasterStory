@@ -114,7 +114,7 @@ nodes = [
 
   ("19 The zombie eat every last one of us. Ted is eaten by princess rainicorn.", \
     None, \
-    [features.DEFEAT, features.SURRENDER])
+    [features.DEFEAT])
 ]
 
 plot = skin.initPlot(nodes, templates, wordset)
