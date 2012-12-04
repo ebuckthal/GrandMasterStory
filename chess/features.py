@@ -89,17 +89,17 @@ def getFeatures(moves):
             bheros.append( move.capture )
          
 
-  if bfeatureWeights[DRAMATIC] / len(moves) > 3:
+  if bfeatureWeights[DRAMATIC] / len(moves) > 2:
     bfeatures.append( DRAMATIC )
-  if wfeatureWeights[DRAMATIC] / len(moves) > 3:
+  if wfeatureWeights[DRAMATIC] / len(moves) > 2:
     wfeatures.append( DRAMATIC )
   if bfeatureWeights[TRAVEL] / len(moves) > 2:
     bfeatures.append( TRAVEL )
   if wfeatureWeights[TRAVEL] / len(moves) > 2:
     wfeatures.append( TRAVEL )
-  if bfeatureWeights[DANGER] / len(moves) > 3:
+  if bfeatureWeights[DANGER] / len(moves) > 2:
     bfeatures.append( DANGER )
-  if wfeatureWeights[DANGER] / len(moves) > 3:
+  if wfeatureWeights[DANGER] / len(moves) > 2:
     wfeatures.append( DANGER )
   
   return (set(wfeatures), set(bfeatures))

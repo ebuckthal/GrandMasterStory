@@ -38,7 +38,6 @@ class PlotIterator(object):
         moveFeatures = ([features.DEFEAT],[features.SAFETY])
       else:
         moveFeatures = ([features.SAFETY],[features.DEFEAT])
-    print moveFeatures
     bestMatch = None 
     bestScore = -100
     for nodeId in nodeIds:
@@ -56,7 +55,7 @@ class PlotIterator(object):
          bestMatch.append( self.plotNodes[nodeId] )
 
     r = random.choice( bestMatch )
-    print r.name
+    print r.name, r.features, moveFeatures[0]
     return r 
 
   def getNextNode(self, currentNode):
