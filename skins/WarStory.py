@@ -1,5 +1,5 @@
 import skin
-import plot.features as features
+import chess.features as features
 
 # random options to be used throughout the game
 wordset = { "@UNIT" : ["@CHAR1 and his platoon", "@CHAR1's unit", "@CHAR1's men", "@CHAR1 and his men"],
