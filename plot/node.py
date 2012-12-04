@@ -5,6 +5,7 @@ class PlotNode(object):
     def __init__(self, name, nextNodes, features, templates, wordset, resources):
         super(PlotNode, self).__init__()
         self.name = name
+        self.empty = False
         self.nextNodes = nextNodes
         self.features = features
         self.templates = templates
@@ -40,5 +41,10 @@ class PlotNode(object):
 
     def generateText(self, gameFeaturesDict=None):
         #optionally pass in features of move for smarter templating
+        if (self.empty):
+            return None
         template = random.choice(self.templates)
+        self.templates.remove(template)
+        if (len(self.templates) == 0):
+            self.empty = True
         return self.replaceTags(template, gameFeaturesDict)

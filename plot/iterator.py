@@ -51,6 +51,8 @@ class PlotIterator(object):
     bestMatch = None 
     bestScore = -100
     for nodeId in nodeIds:
+      if (self.plotNodes[nodeId].empty):
+        continue
       score = 0
       nodeFeatures = self.plotNodes[nodeId].features
       for feat in nodeFeatures:
