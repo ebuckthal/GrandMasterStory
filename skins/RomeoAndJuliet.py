@@ -1,5 +1,5 @@
 import skin
-import plot.features as features
+import chess.features as features
 
 #lists of words used by the templates
 wordset = {"@KILLED" : ["slayed", "killed"],
@@ -8,7 +8,10 @@ wordset = {"@KILLED" : ["slayed", "killed"],
 
 #lists of templates used by the plot nodes
 templates = [
-["""Intro."""],
+["""  Two households, both alike in dignity,
+  In fair Verona, where we lay our scene,
+  From ancient grudge break to new mutiny,
+  Where civil blood makes civil hands unclean."""],
 
 ["""As Benvolio strolled down a street in Verona, he was waylaid by a rogue group of Capulet \
 thugs. "Thou art trespassing on Capulet grounds!", shrieked the thugs as they stabbed his \
@@ -212,12 +215,12 @@ city unnoticed."""],
 
 nodes = [
     # list of plot nodes initialized with name, templates, nextNodeID, and feature
-    ('0Intro',                       [1,2,3,4,5,6],       None),
+    ('0Intro',                       [1,2,3,4,5,6],       []),
 
     ('1Benvollo slain',              [3,4,5,6,7,8,9,10],      [features.IMPORTANT_DEATH, features.UNIMPORTANT_DEATH, features.DANGER]),
     ('2Benvollo slain dramatically', [3,4,5,6,7,8,9,10],      [features.DRAMATIC, features.IMPORTANT_DEATH, features.HERO]),
 
-    ('3Montague forbids',            [5,6,7,8,9,10],      features.DANGER),
+    ('3Montague forbids',            [5,6,7,8,9,10],      [features.DANGER]),
     ('4Montague forbids d',          [5,6,7,8,9,10],      [features.DRAMATIC, features.DANGER]),
 
     ('5Romeo visits Juliet',         [7,8,9,10],      [features.HERO, features.TRAVEL, features.CHECK]),
@@ -236,7 +239,7 @@ nodes = [
     ('14r falls for trick d',         [15,16,17,18,19,20],    [features.DRAMATIC]),
 
     ('15capulet injures montague',    [17,18,19,20],    [features.IMPORTANT_DEATH, features.UNIMPORTANT_DEATH]),
-    ('16capulet injures montague d',  [17,18,19,20],    [features.DEATH, features.DRAMATIC, features.IMPORTANT_DEATH]),
+    ('16capulet injures montague d',  [17,18,19,20],    [features.UNIMPORTANT_DEATH, features.DRAMATIC, features.IMPORTANT_DEATH]),
 
     ('17montague wants to kill c',    [19,20],    [features.DANGER]),
     ('18montague wants to kill c d',  [19,20],    [features.DRAMATIC]),
@@ -254,7 +257,7 @@ nodes = [
     ('26romeo fights tybalt 14a d',   [29,30],    [features.IMPORTANT_DEATH, features.DRAMATIC]),
 
     ('27romeo fights tybalt 14a',     [29,30],    [features.DANGER, features.HERO, features.IMPORTANT_KILL, features.UNIMPORTANT_KILL]),
-    ('28romeo fights tybalt 14a d',   [29,30],    [features.DRAMATIC, features.IMPORANT_KILL, features.HERO]),
+    ('28romeo fights tybalt 14a d',   [29,30],    [features.DRAMATIC, features.IMPORTANT_KILL, features.HERO]),
 
     ('29juliet gets poison',          [31,32],    [features.DANGER]),
     ('30juliet gets poison d',        [31,32],    [features.DRAMATIC]),
@@ -274,7 +277,7 @@ nodes = [
     ('39capulet defeats romeo',       None,    [features.DANGER, features.UNIMPORTANT_KILL, features.DEFEAT]),
     ('40capulet defeats romeo',       None,    [features.DRAMATIC, features.DEFEAT]),
 
-    ('41romeo escapes trap',          [17,18,19,20],  None)
+    ('41romeo escapes trap',          [17,18,19,20],  [features.HERO])
 
 ]
 
