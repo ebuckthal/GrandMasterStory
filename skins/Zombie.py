@@ -37,7 +37,7 @@ templates = [
 
 nodes = [
   ("0 we're running through a office building and we find a bunch of weapons, pretty neat.", \
-    [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17], \
+    [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19], \
     [features.TRAVEL]), \
   
   ("1 Ted gets bit and turns into a zombie. He kills priness rainicorn before we kill him.", \
