@@ -214,65 +214,65 @@ nodes = [
     # list of plot nodes initialized with name, templates, nextNodeID, and feature
     ('0Intro',                       [1,2,3,4,5,6],       None),
 
-    ('1Benvollo slain',              [3,4,5,6,7,8,9,10],      [features.DEATH]),
-    ('2Benvollo slain dramatically', [3,4,5,6,7,8,9,10],      [features.DRAMATIC, features.DEATH]),
+    ('1Benvollo slain',              [3,4,5,6,7,8,9,10],      [features.IMPORTANT_DEATH, features.UNIMPORTANT_DEATH, features.DANGER]),
+    ('2Benvollo slain dramatically', [3,4,5,6,7,8,9,10],      [features.DRAMATIC, features.IMPORTANT_DEATH, features.HERO]),
 
-    ('3Montague forbids',            [5,6,7,8,9,10],      None),
-    ('4Montague forbids d',          [5,6,7,8,9,10],      [features.DRAMATIC]),
+    ('3Montague forbids',            [5,6,7,8,9,10],      features.DANGER),
+    ('4Montague forbids d',          [5,6,7,8,9,10],      [features.DRAMATIC, features.DANGER]),
 
-    ('5Romeo visits Juliet',         [7,8,9,10],      features.TRAVEL),
+    ('5Romeo visits Juliet',         [7,8,9,10],      [features.HERO, features.TRAVEL, features.CHECK]),
     ('6Romeo visits Juliet d',       [7,8,9,10],      [features.TRAVEL, features.DRAMATIC]),
 
-    ('7capulet wife sees Romeo',     [9,10],     None),
+    ('7capulet wife sees Romeo',     [9,10],     [features.DANGER]),
     ('8capulet wife sees Romeo D',   [9,10],     [features.DRAMATIC]),
 
-    ('9capulet wife tells capulet',  [11,12],    None),
+    ('9capulet wife tells capulet',  [11,12],    [features.DANGER]),
     ('10capulet wife tells c d',      [11,12],    [features.DRAMATIC]),
 
-    ('11capulet tries to trick r',    [13,14,41],    None),
-    ('12capulet tries to trick r d',  [13,14,41],    [features.DRAMATIC]),
+    ('11capulet tries to trick r',    [13,14,41],    [features.DANGER]),
+    ('12capulet tries to trick r d',  [13,14,41],    [features.DRAMATIC, features.DANGER]),
 
-    ('13r falls for trick',           [15,16,17,18,19,20],    None),
+    ('13r falls for trick',           [15,16,17,18,19,20],    [features.IMPORTANT_DEATH, features.UNIMPORTANT_DEATH]),
     ('14r falls for trick d',         [15,16,17,18,19,20],    [features.DRAMATIC]),
 
-    ('15capulet injures montague',    [17,18,19,20],    [features.DEATH]),
-    ('16capulet injures montague d',  [17,18,19,20],    [features.DRAMATIC, features.DEATH]),
+    ('15capulet injures montague',    [17,18,19,20],    [features.IMPORTANT_DEATH, features.UNIMPORTANT_DEATH]),
+    ('16capulet injures montague d',  [17,18,19,20],    [features.DEATH, features.DRAMATIC, features.IMPORTANT_DEATH]),
 
-    ('17montague wants to kill c',    [19,20],    None),
+    ('17montague wants to kill c',    [19,20],    [features.DANGER]),
     ('18montague wants to kill c d',  [19,20],    [features.DRAMATIC]),
 
-    ('19romeo hears j marriage',      [21,22],    None),
-    ('20romeo hears j marriage d',    [21,22],    [features.DRAMATIC]),
+    ('19romeo hears j marriage',      [21,22],    [features.DANGER, features.IMPORTANT_DEATH]),
+    ('20romeo hears j marriage d',    [21,22],    [features.DRAMATIC, features.IMPORTANT_DEATH]),
 
-    ('21romeo decides to run',        [23,24,29,30],    [features.TRAVEL]),
+    ('21romeo decides to run',        [23,24,29,30],    [features.TRAVEL, features.DANGER]),
     ('22romeo decides to run d',      [23,24,29,30],    [features.TRAVEL, features.DRAMATIC]),
 
-    ('23romeo sees mercutio die',     [25,26,27,28],    [features.DEATH]),
-    ('24romeo sees mercutio die d',   [25,26,27,28],    [features.DEATH, features.DRAMATIC]),
+    ('23romeo sees mercutio die',     [25,26,27,28],    [features.IMPORTANT_DEATH, features.UNIMPORTANT_DEATH, features.DANGER]),
+    ('24romeo sees mercutio die d',   [25,26,27,28],    [features.IMPORTANT_DEATH, features.DRAMATIC, features.DANGER]),
 
-    ('25romeo fights tybalt 14a',     [29,30],    [features.DEATH]),
-    ('26romeo fights tybalt 14a d',   [29,30],    [features.DEATH, features.DRAMATIC]),
+    ('25romeo fights tybalt 14a',     [29,30],    [features.IMPORTANT_DEATH, features.UNIMPORTANT_DEATH, features.DANGER]),
+    ('26romeo fights tybalt 14a d',   [29,30],    [features.IMPORTANT_DEATH, features.DRAMATIC]),
 
-    ('27romeo fights tybalt 14a',     [29,30],    None),
-    ('28romeo fights tybalt 14a d',   [29,30],    [features.DRAMATIC]),
+    ('27romeo fights tybalt 14a',     [29,30],    [features.DANGER, features.HERO, features.IMPORTANT_KILL, features.UNIMPORTANT_KILL]),
+    ('28romeo fights tybalt 14a d',   [29,30],    [features.DRAMATIC, features.IMPORANT_KILL, features.HERO]),
 
-    ('29juliet gets poison',          [31,32],    None),
+    ('29juliet gets poison',          [31,32],    [features.DANGER]),
     ('30juliet gets poison d',        [31,32],    [features.DRAMATIC]),
 
-    ('31romeo goes to juliet',        [33,34],    [features.TRAVEL]),
+    ('31romeo goes to juliet',        [33,34],    [features.TRAVEL, features.DANGER]),
     ('32romeo goes to juliet d',      [33,34],    [features.TRAVEL, features.DRAMATIC]),
 
-    ('33romeo is confronted by c',    [35,36,37,38,39,40],    None),
-    ('34romeo is confronted by c d',  [35,36,37,38,39,40],    [features.DRAMATIC]),
+    ('33romeo is confronted by c',    [35,36,37,38,39,40],    [features.DANGER, features.DRAMATIC, features.UNIMPORTANT_DEATH]),
+    ('34romeo is confronted by c d',  [35,36,37,38,39,40],    [features.DRAMATIC, features.IMPORTANT_DEATH, features.IMPORTANT_KILL]),
 
-    ('35romeo is scared' ,            [37,38,39,40],    None),
+    ('35romeo is scared' ,            [37,38,39,40],    [features.IMPORTANT_DEATH, features.DANGER]),
     ('36romeo is scared d',           [37,38,39,40],    [features.DRAMATIC]),
 
-    ('37romeo defeats capulet',       None,    [features.DEATH]),
-    ('38romeo defeats capulet d',     None,    [features.DEATH, features.DRAMATIC]),
+    ('37romeo defeats capulet',       None,    [features.SAFETY, features.DANGER, features.IMPORTANT_DEATH]),
+    ('38romeo defeats capulet d',     None,    [features.SAFETY, features.IMPORTANT_DEATH, features.DRAMATIC]),
 
-    ('39capulet defeats romeo',       None,    None),
-    ('40capulet defeats romeo',       None,    [features.DRAMATIC]),
+    ('39capulet defeats romeo',       None,    [features.DANGER, features.UNIMPORTANT_KILL, features.DEFEAT]),
+    ('40capulet defeats romeo',       None,    [features.DRAMATIC, features.DEFEAT]),
 
     ('41romeo escapes trap',          [17,18,19,20],  None)
 
