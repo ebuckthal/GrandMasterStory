@@ -5,12 +5,14 @@ import re
 
 class PlotIterator(object):
   """Iterates through the plot tree"""
-  def __init__(self, plotNodes, chessGame=None, plotDepth=15):
+  def __init__(self, plotNodes, chessGame=None, whitesView=True, plotDepth=15, debug=False):
     super(PlotIterator, self).__init__()
     self.plotNodes = plotNodes
     self.game = chessGame
     self.maxDepth = plotDepth
     self.plotDepth = 0
+    self.whitesView = whitesView
+    self.debug = debug
     if (chessGame):
       self.__setupGame__()
 
@@ -30,24 +32,30 @@ class PlotIterator(object):
       self.moveGroups.append(moves[total:total+count])
       total += count
 
-  def chooseNodeWithMoves(self, nodeIds, moves):
+  def getMoveFeatures(self, moves):
     if (moves):
-      moveFeatures = features.getFeatures(moves)
-    else: 
-      if (self.game.outcome[0]):
-        moveFeatures = ([features.DEFEAT],[features.SAFETY])
+      if self.whitesView:
+        return features.getFeatures(moves)[0]
       else:
-        moveFeatures = ([features.SAFETY],[features.DEFEAT])
+        return features.getFeatures(moves)[1]
+    else: 
+      if ((self.game.outcome[0] and self.whitesView) or (not self.game.outcome[0] and not self.whitesView)):
+        return [features.SAFETY]
+      else:
+        return [features.DEFEAT]
+
+  def chooseNodeWithMoves(self, nodeIds, moves):
+    moveFeatures = self.getMoveFeatures(moves)
+
     bestMatch = None 
     bestScore = -100
     for nodeId in nodeIds:
       score = 0
       nodeFeatures = self.plotNodes[nodeId].features
       for feat in nodeFeatures:
-         if feat in moveFeatures[0]:
+         if feat in moveFeatures:
             score += 1
-      score -= math.fabs( len(nodeFeatures) - len(moveFeatures[0]) )
-#print score, nodeId, nodeFeatures, self.plotNodes[nodeId].name 
+      score -= math.fabs( len(nodeFeatures) - len(moveFeatures) ) 
       if score > bestScore:
          bestScore = score
          bestMatch = [self.plotNodes[nodeId]]
@@ -55,7 +63,8 @@ class PlotIterator(object):
          bestMatch.append( self.plotNodes[nodeId] )
 
     r = random.choice( bestMatch )
-    print r.name, r.features, moveFeatures[0]
+    if self.debug:
+      print r.name, r.features, moveFeatures
     return r 
 
   def getNextNode(self, currentNode):
