@@ -42,7 +42,7 @@ hiding in a @BUILDING for the past three days and needed to venture out for more
 "@ALIVECHAR mentioned the gathering of zombies in the distance.",
 "Everyone was quiet. The zombies hearing was very sensitive.",
 "The gang saw an old barricaded @BUILDING. Obvious signs of human struggle were everywhere.",
-"The streets were filled with zombies crawling on top of a @CAR"
+"The streets were filled with zombies crawling on top of a @CAR",
 "A cloud moved across the sky, blocking the moon; it got unbearably dark.",
 "Walking down the street, @ALIVECHAR stumbled over a trashcan making a loud clamor that echoed into the distance.", 
 "The group heard a loud growling noise nearby."],
