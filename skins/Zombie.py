@@ -6,10 +6,11 @@ wordset = { "@ALIVECHAR" : ["@KILLCHAR"],
             "@ALLCHAR" : ["@CHAR1, @CHAR2, @CHAR3, and @CHAR4"],
             "@TOWN" : ["Paris", "London", "New York", "San Luis Obispo", "the small town of Ravenholdt", "San Francisco"],
             "@ZOMBIE" : ["Spitter Zombie", "Tank Zombie", "Charger Zombie", "Smoker Zombie", "Hunter Zombie", "Boomer Zombie", "Smoker Zombie", "Jockey Zombie"],
-            "@KILLCHAR" : ["a zombie", "a disgusting, pussy rotting zombie", "what was once human", "a head-less zombie"],
+            "@KILLCHAR" : ["a zombie", "a disgusting, rotting zombie", "what was once human", "a head-less zombie"],
             "@TRAVELED" : ["@KILLTRAVEL"],
             "@KILLTRAVEL" : ["walked", "ran", "jumped"], # default travel - walking
-            "@DROVE" : ["drove", "sped"] # if car hasn't blown up
+            "@DROVE" : ["drove", "sped"], # if car hasn't blown up
+            "@GROUP" : ["gang", "group"]
          }
 
 # chooses a random option at the beginning of th game
@@ -19,7 +20,7 @@ constants = {
           }
 
 # maps keys to possible values for a story
-choices = [ (["@CHAR1", "@CHAR2", "@CHAR3", "@CHAR4"], ["Mike", "Eric", "Nick", "Connor", "Ted", "Foaad"])
+choices = [ (["@CHAR1", "@CHAR2", "@CHAR3", "@CHAR4"], ["Mike", "Eric", "Nick", "Connor", "Ted", "Foaad", "Andrew"])
           ]
 
 resources = {"@KILLCHAR" : ["@CHAR1", "@CHAR2", "@CHAR3", "@CHAR4"],
@@ -31,31 +32,32 @@ resources = {"@KILLCHAR" : ["@CHAR1", "@CHAR2", "@CHAR3", "@CHAR4"],
 templates = [
 #intro
 ["@ALLCHAR, had banded together as what seemed like the last survivors. The zombie apocalypse started 2 months ago, but the survivors knew more humans were still alive.",
-"In @TOWN, one rough group of odd characters were banded together. The zombie apocalypse started only months ago, but @ALIVECHAR had been \
-hiding in @ALIVECHAR's hous for the past three days and needed to venture out for more food and ammunition. Some still thought more people were out there."],
+"In @TOWN, one rough @GROUP of odd characters were banded together. The zombie apocalypse started only months ago, but @ALIVECHAR had been \
+hiding in @ALIVECHAR's house for the past three days and needed to venture out for more food and ammunition. Some still thought more people were out there."],
 # move outside
-["The group ran outside into their @CAR", 
-"Zombies broke past their barricades. They all had to move quickly outside and luckily into their @CAR"],
+["The @GROUP ran outside into their @CAR.", 
+"Zombies broke past their barricades. They all had to move quickly outside and luckily into their @CAR."],
 #boring
 ["The wind kicked up; @ALIVECHAR shivered. There was a faint howl in the distance.", 
 "@ALIVECHAR mentioned the gathering of zombies in the distance.",
 "Everyone was quiet. The zombies were close but unaware of their presence.",
-"The gang saw an old barricaded @BUILDING. Obvious signs of human struggle were everywhere.",
+"The @GROUP saw an old barricaded @BUILDING. Obvious signs of human struggle were everywhere.",
 "The streets were filled with zombies crawling on top of a @CAR",
 "A cloud moved across the sky, blocking the moon; it got unbearably dark.",
 "Walking down the street, @ALIVECHAR stumbled over a trashcan making a loud clamor that echoed into the distance.", 
-"The group heard a loud growling noise nearby."],
+"The @GROUP heard a loud growling noise nearby.",
+"They all huddled around @ALIVECHAR to reload."],
 #danger
-["Out of nowhere the group was cornered by a @ZOMBIE.",
+["Out of nowhere the @GROUP was cornered by a @ZOMBIE.",
  "In the window above, a @ZOMBIE spotted them.",
- "The gang turned a corner and found themselves in a staring contest with a @ZOMBIE.",
+ "The @GROUP turned a corner and found themselves in a staring contest with a @ZOMBIE.",
  "Some zombies had the strength of a dozen average zombies and right now, @ALIVECHAR was staring one down.",
- "The gang was sprinting between shadowed corners, but @ALIVECHAR tripped briefly and alerted the nearby @ZOMBIE."],
+ "The @GROUP was sprinting between shadowed corners, but @ALIVECHAR tripped briefly and alerted the nearby @ZOMBIE."],
 #dramatic
 ["@ALIVECHAR stumbles across a hidden cache of weapons and ammunition."
- "There had been a group of people here before. Guns and ammunition were in stacks but there were no people to be found. Something about it wasn't right, but the gang took what they could.",
- "In a moment of hope, @ALIVECHAR found a stash of batteries, bottled water, and a broken radio. Maybe fixing the radio could reveal another human group?",
- "The group was together and out of zombie danger. They barricaded a steel door behind them and took a moment to recuperate.",
+ "There had been a @GROUP of people here before. Guns and ammunition were in stacks but there were no people to be found. Something about it wasn't right, but the @GROUP took what they could.",
+ "In a moment of hope, @ALIVECHAR found a stash of batteries, bottled water, and a broken radio. Maybe fixing the radio could reveal another human @GROUP?",
+ "The @GROUP was together and out of zombie danger. They barricaded a steel door behind them and took a moment to recuperate.",
  "@ALIVECHAR reloaded his gun. Danger was near, but the last few zombies didn't stand a chance against his shot gun.",
  "More guns! @ALIVECHAR threw down his baseball bat and picked up something with a little more power."],
 #hero
@@ -63,18 +65,18 @@ hiding in @ALIVECHAR's hous for the past three days and needed to venture out fo
 In an amazing show of bravery @ALIVECHAR shot the zombies pinning them to the wall and saved everyone.",
 "@ALIVECHAR shot a zombie standing next to an burnt police cruiser. Unluckily the car alarm still worked. Every zombie in the area started rushing towards @ALIVECHAR. \
 A @ZOMBIE took the front of the crowd, crushing several of his zombie allies. @ALIVECHAR set up a propane tank trap and ran as fast as possible. Impossibly, he shot over \
-his shoulder and set off the bomb just in time. The group was safe.",
+his shoulder and set off the bomb just in time. The @GROUP was safe.",
 "@ZOMBIE jumped out from a window above @ALIVECHAR, crushing his leg and throwing dust into the air. @ALIVECHAR pushed the zombie off with the but of his gun and delivered a fatal blast.",
 "@ALIVECHAR fixed up a barricade in an attempt to escape the rushing horde, but it wasn't going to hold. There were too many zombies. @ALIVECHAR set up a distraction. \
 Blasting away all the zombies from a nearby window.",
-"In a tight street, @ZOMBIE and @ZOMBIE approached the group from either side. @ALIVECHAR killed both with amazing marksmanship.",
+"In a tight street, @ZOMBIE and @ZOMBIE approached the @GROUP from either side. @ALIVECHAR killed both with amazing marksmanship.",
 "@ALIVECHAR set up a gasoline filled trap while the others stood back in case the zombies surprised him. @ALIVECHAR caught the attention of a horde of zombies and led them straight into \
 the trap which turned into an inferno with a quick shot from @ALIVECHAR's gun. The zombies burned slowly; the smell was awful."],
 #important kill
 ["@ALIVECHAR managed to bludgeon a @ZOMBIE to death with his bare hands.",
  "@ALIVECHAR destroyed a @ZOMBIE by rolling a refrigerator out of a third-story window with pinpoint accuracy.",
  "By complete surprise, @ALIVECHAR found a zombie gathering and remove it with a skillful toss of a grenade.",
- "A @ZOMBIE approaches @ALIVECHAR, but @ALIVECHAR deals a devastating blow to protect the group."],
+ "A @ZOMBIE approaches @ALIVECHAR, but @ALIVECHAR deals a devastating blow to protect the @GROUP."],
 #UNIMPORTANT_KILL
 ["@ALIVECHAR is surprised by a @ZOMBIE and barely manages to wound it with his crossbow before managing to get away.",
 "A single zombie runs blindly at @ALIVECHAR, who bashes the demon down cleanly with the strike of a club.",
@@ -90,15 +92,15 @@ but @ALIVECHAR decides to put him out of misery.",
 ["@ALIVECHAR is severely wounded by a rampaging zombie, but he'll make it.", 
 "While they @KILLTRAVEL across the bridge a large mutant zombie smashed the front of their car, throwing them out."],
 #TRAVEL
-["The group @TRAVELED down the street toward the grocery store.",
+["The @GROUP @TRAVELED down the street toward the grocery store.",
 "@ALIVECHAR declares they haven't yet found safety. Moving seems like the best option.",
 "@ALIVECHAR wants to find a new hideout before dark, so they quickly move across town in search of shelter."],
 #CHECK
-["Off in the distance, the group sees a boat tied to the dock. Could the ocean give them refuge?",
+["Off in the distance, the @GROUP sees a boat tied to the dock. Could the ocean give them refuge?",
 "A helicopter circles overhead. @ALIVECHAR wave furiously, but incoming zombies force them indoors. Who was in that helicopter?",
 "The survivors hear gunshots nearby. And shouting! Could there be more people nearby?"],
 #important kill, Travel
-["As the group ran through the street, @ALIVECHAR shot a @ZOMBIE in the face killing it.",
+["As the @GROUP ran through the street, @ALIVECHAR shot a @ZOMBIE in the face killing it.",
 "@ALIVECHAR knew they needed to cross town. While maneuvering the streets, a @ZOMBIE grabs @ALIVECHAR but @ALIVECHAR quickly destroys the zombie.",
 "With a newly-equipped rifle, @ALIVECHAR blasts a @ZOMBIE from the center of it's zombie horde.",
 "@ALIVECHAR steadies his rifle and shoots a @ZOMBIE cleanly from yards away.",
@@ -117,7 +119,7 @@ but @ALIVECHAR decides to put him out of misery.",
 #SAFETY
 ["@ALIVECHAR blast the last few remaining zombies from the dock attached to the boat. They jump in and untie the boat. The characters feel safe for once as the boat slowly drifts into the ocean."],
 #Defeat
-["Suddenly the group is surrounded by the biggest horde of zombies that they have ever seen led by a @ZOMBIE. Each survivor is torn apart brutally and killed."],
+["Suddenly the @GROUP is surrounded by the biggest horde of zombies that they have ever seen led by a @ZOMBIE. Each survivor is torn apart brutally and killed."],
 
 # move inside
 ["It starts to rain. The last thing @ALIVECHAR needs is wet gear and he makes it known. They look inside a nearby @BUILDING."],
@@ -128,16 +130,16 @@ but @ALIVECHAR decides to put him out of misery.",
 "@ALIVECHAR still tried every light switch though the power had been out for weeks."], 
 #danger
 ["Opening a door, @ALIVECHAR disturbs a @ZOMBIE.",
- "As our gang turns the corner, several zombies awake and beginng to sense the survivors, but make no move yet",
+ "As our @GROUP turns the corner, several zombies awake and beginning to sense the survivors, but make no move yet.",
  "A @ZOMBIE jumps out from behind a pile of clothes! But he was certainly naked."],
 #dramatic
-["@ALIVECHAR stumbles across a hidden cache of underwear. You never know how much you want clean underwear before you don't have it",
+["@ALIVECHAR stumbles across a hidden cache of underwear. You never know how much you want clean underwear before you don't have it.",
  "More guns! @ALIVECHAR threw down his baseball bat and picked up something with a little more power."],
 #hero
 ["Through the ceiling, a huge @ZOMBIE fell on top of @ALIVECHAR. He became so enraged that he threw the zombie and a dozen other zombies out a window."],
 #important kill
 ["By complete surprise, @ALIVECHAR finds a room filled with gruesome zombies and a @ZOMBIE, he tosses a grenade in and slams the door shut.",
- "A @ZOMBIE approaches @ALIVECHAR, but @ALIVECHAR deals a devastating blow to protect the group."],
+ "A @ZOMBIE approaches @ALIVECHAR, but @ALIVECHAR deals a devastating blow to protect the @GROUP."],
 #UNIMPORTANT_KILL
 ["@ALIVECHAR plows though a small bunch of zombies, crushing the skull of each one.",
  "As if they spent every day endlessly killing zombies, @ALIVECHAR killed another zombie."],
@@ -154,7 +156,7 @@ but @ALIVECHAR decides to put him out of misery.",
 ["A helicopter circles overhead. @ALIVECHAR wave furiously, but incoming zombies force them indoors. Who was in that helicopter?",
  "Helicopter noises! Is someone going to save them?"],
 #important kill, Travel
-["The group tries the elevator, but of course the door is pryed open. Inside the elevator shaft, zombies start crawling up the side. A @ZOMBIE grabs @ALIVECHAR, \
+["The @GROUP tries the elevator, but of course the door is pryed open. Inside the elevator shaft, zombies start crawling up the side. A @ZOMBIE grabs @ALIVECHAR, \
 in a cunning move, @ALIVECHAR shoots the elevator cable like he's seen in movies. The elevator comes crashing down and kills the zombies."],
 #CHECK, important kill
 ["The top of the @BUILDING is their goal. Flight after flight they've tried and now at what seems to be the 100th flight stands a @ZOMBIE. @ALIVECHAR uses a rocket launcher to vaporize it."],
@@ -166,7 +168,7 @@ in a cunning move, @ALIVECHAR shoots the elevator cable like he's seen in movies
 #SAFETY
 ["@ALIVECHAR kicks open the door to the roof. Outside there are a couple zombies that @ALIVECHAR tosses off the edge. The helicopter circles around and spots the survivors. They're carried away"],
 #Defeat
-["Suddenly the group is surrounded by the biggest horde of zombies that they have ever seen led by a @ZOMBIE. Each survivor is torn apart brutally and killed."]
+["Suddenly the @GROUP is surrounded by the biggest horde of zombies that they have ever seen led by a @ZOMBIE. Each survivor is torn apart brutally and killed."]
 ]
 
 nodes = [
