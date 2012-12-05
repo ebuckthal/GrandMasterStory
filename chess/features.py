@@ -48,6 +48,7 @@ def getFeatures(moves):
          bfeatureWeights[TRAVEL] += getTravelWeight(move)
 
       death = getDeathWeight( move )
+      # always triggered along with important kills
       if death == 1:
         if move.isWhite:
           wfeatures.append( UNIMPORTANT_DEATH )
@@ -81,6 +82,7 @@ def getFeatures(moves):
           if move.capture in wheros:
             wfeatures.append(HERO)
           else:
+            # wheros?
             bheros.append( move.capture )
         else:
           if move.capture in bheros:
