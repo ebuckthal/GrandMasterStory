@@ -118,53 +118,8 @@ but @ALIVECHAR decides to put him out of misery.",
 #SAFETY
 ["@ALLCHAR blast the last few remaining zombies from the dock attached to the boat. They jump in and untie the boat. The characters feel safe for once as the boat slowly drifts into the ocean."],
 #Defeat
-["Suddenly the group is surrounded by the biggest horde of zombies that they have ever seen led by a @ZOMBIE. @ALLCHAR are torn apart brutally and killed."],
+["Suddenly the group is surrounded by the biggest horde of zombies that they have ever seen led by a @ZOMBIE. @ALLCHAR are torn apart brutally and killed."]
 
-
-# move inside
-[""],
-#boring
-["The wind kicked up; @ALIVECHAR shivered. There was a faint howl in the distance.", 
-"@ALIVECHAR mentioned the gathering of zombies in the distance.",
-"Everyone was quiet. The zombies hearing was very sensitive.",
-"The gang saw an old barricaded @BUILDING. Obvious signs of human struggle were everywhere.",
-"The streets were filled with zombies crawling on top of a @CAR"
-"A cloud moved across the sky, blocking the moon; it got unbearably dark.",
-"Walking down the street, @ALIVECHAR stumbled over a trashcan making a loud clamor that echoed into the distance.", 
-"The group heard a loud growling noise nearby."],
-#danger
-["Out of nowhere the group was cornered by a @ZOMBIE.",
-"Several zombies crawl in through the windows and look for the survivors.",
-"The survivors hold their breath and stare at the @ZOMBIE looking through the open door for them.",
-"A @ZOMBIE spots @ALIVECHAR and calls to the rest of his zombie horde."],
-#dramatic
-["@ALIVECHAR stumbles across a hidden cache of weapons and ammunition."],
-#hero
-["There was a loud bang as a @ZOMBIE with a whole horde of zombies crashed threw the wall be @ALIVECHAR and @ALIVECHAR pinning them to the wall. In an amazing show of bravery @ALIVECHAR shot the zomibies pinning them to the wall and saved everyone."],
-#important kill
-["@ALIVECHAR manages to bludgeons to death a @ZOMBIE with his bear hands."],
-#UNIMPORTANT_KILL
-["@ALIVECHAR is surprised by a @ZOMBIE and barely manages to wound it with his crossbow before managing to get away."],
-#IMPORTANT_DEATH", \
-["A huge @ZOMBIE threw @KILLCHAR to the ground and tore off his head."],
-#UNIMPORTANT_DEATH", \
-["@ALIVECHAR gets severely wounded by a zombie."],
-#TRAVEL
-["@ALLCHAR charge in to a @BUILDING that was across the street."],
-#CHECK
-["Off in the distance, the group sees a boat tied to the dock. They decided to try and take it to safety."],
-#important kill, Travel
-["As the group ran through the street, @ALIVECHAR shot a @ZOMBIE in the face killing it."],
-#CHECK, important kill
-["They where less the 300 yards to the boat that was there safety when a @ZOMBIE jumped them. @ALIVECHAR shot his crossbow and hit the zombie in the eye."],
-#Dramatic, important kill
-["@ALIVECHAR shot a gas tank attached to a car which exploded killing many zombies."],
-#important kill, unimportant death
-["@ALIVECHAR was badly wounded in the arm while killing a zombie"],
-#SAFETY
-["@ALLCHAR stumble exhausted on to the boat and sail off the coast leaving behind the hordes of zombies trying to eat them."],
-#Defeat
-["Suddenly the group is cornered by the biggest horde of zombies that they have ever seen lead by a @ZOMBIE. @ALLCHAR are torn apart brutally and killed."]
 ]
 
 nodes = [
