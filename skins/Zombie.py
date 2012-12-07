@@ -6,11 +6,11 @@ wordset = { "@ALIVECHAR" : ["@KILLCHAR"],
             "@ALLCHAR" : ["@CHAR1, @CHAR2, @CHAR3, and @CHAR4"],
             "@TOWN" : ["Paris", "London", "New York", "San Luis Obispo", "the small town of Ravenholdt", "San Francisco"],
             "@ZOMBIE" : ["Spitter Zombie", "Tank Zombie", "Charger Zombie", "Smoker Zombie", "Hunter Zombie", "Boomer Zombie", "Smoker Zombie", "Jockey Zombie"],
-            "@KILLCHAR" : ["a zombie", "a disgusting, rotting zombie", "what was once human", "a head-less zombie"],
+            "@KILLCHAR" : ["a zombie", "a disgusting, rotting zombie", "what was once human", "a head-less zombie", "a moving pile of limbs"],
             "@TRAVELED" : ["@KILLTRAVEL"],
             "@KILLTRAVEL" : ["walked", "ran", "jumped"], # default travel - walking
             "@DROVE" : ["drove", "sped"], # if car hasn't blown up
-            "@GROUP" : ["gang", "group"]
+            "@GROUP" : ["refugees", "gang", "group", "survivors", "Village People, as they called themselves,"]
          }
 
 # chooses a random option at the beginning of th game
