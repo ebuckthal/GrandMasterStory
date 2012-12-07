@@ -3,6 +3,10 @@ import chess.game
 import skins.Zombie
 import random
 
+
+f = open('surveyKey.txt', 'w+')
+
+
 print "=============== INSTRUCTIONS! =================\n"
 
 print "One of the stories is generated from the chess game, the other is generated from a random chess game.\n"
@@ -11,8 +15,10 @@ print "Go to http://chesstempo.com/pgn-viewer.html (or Google for PGN Viewer) an
 
 print "Guess which chess game generated the story! Thanks for you help!\n"
 
-for s in range(50):
+for s in range(99):
 
+
+  sol = ''
 
   game = []
   game.append(chess.game.randomGame())
@@ -34,7 +40,10 @@ for s in range(50):
     print "\n----------- END OF PGN %d for %02d -------------\n" % (i, s)
     i = i + 1
   
-  iterator = PlotIterator(skins.Zombie.plot, game[random.randint(0,len(game)-1)], separator="\n\n")
+  choice = random.randint(0, len(game)-1)
+  f.write(str(s) + ' ' + str(choice) + '\n')
+
+  iterator = PlotIterator(skins.Zombie.plot, game[choice], separator="\n\n")
   print iterator.generateStory()
   
   print "|||||||||||||||||||||||||||||||||||||||||||||||||||"
@@ -43,4 +52,5 @@ for s in range(50):
 
   reload(skins.Zombie)
   
+f.close()
 
