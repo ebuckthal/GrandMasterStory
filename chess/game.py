@@ -112,6 +112,15 @@ class ChessGame(object):
       else:
          return self.blackMoves[num/2]
 
+   def makePGN(self):
+     moves = self.gameDict['moves']
+
+     pgn = ''
+     for i in range(len(moves)):
+       pgn = pgn + str(i) + '. ' + moves[i][0] + ' ' +  moves[i][1] + ' '
+
+     return pgn[:-1]
+
    def printMoves(self):
       for i in range(self.totalMoves):
          self.getMove(i).printMove()
