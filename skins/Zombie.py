@@ -96,7 +96,7 @@ the trap which turned into an inferno with a quick shot from @ALIVECHAR's gun. T
 "@ALIVECHAR wants to find a new hideout before dark, so they quickly move across town in search of shelter."],
 #CHECK
 ["Off in the distance, the @GROUP see a boat tied to the dock. Could the ocean give them refuge?",
-"From the high vantage point, the @GROUP catch sight of the boat. Plenty of zombies stand between them and potential safety.", 
+"From the high vantage point, the @GROUP catch sight of the boat. Plenty of zombies stand between them and potential safety."], 
 #important kill, Travel
 ["As the @GROUP dashed street after stree, @ALIVECHAR shot a @ZOMBIE in the face killing it.",
 "@ALIVECHAR knew they needed to cross town. In the daylight, it was essential to move as quickly as possible. The survivors look behind them and see a @ZOMBIE chasing them. @ALIVECHAR lights up a tank of gasoline and forms a wall of fire to seal off the street.",
@@ -136,7 +136,7 @@ the trap which turned into an inferno with a quick shot from @ALIVECHAR's gun. T
 #hero
 ["Through the ceiling, a huge @ZOMBIE fell on top of @ALIVECHAR. He became so enraged that he threw the zombie and a dozen other zombies out a window."],
 #important kill
-["By complete surprise, @ALIVECHAR finds a room filled with gruesome zombies and a @ZOMBIE, he tosses a grenade in and slams the door shut.",
+["By complete surprise, @ALIVECHAR finds a room filled with gruesome zombies and a @ZOMBIE, he tosses a grenade in and slams the door shut."],
 #UNIMPORTANT_KILL
 ["@ALIVECHAR plows though a small bunch of zombies, crushing the skull of each one.",
  "As if they spent every day endlessly killing zombies, @ALIVECHAR killed another zombie."],
@@ -146,7 +146,7 @@ the trap which turned into an inferno with a quick shot from @ALIVECHAR's gun. T
 "@KILLCHAR is grabbed through a window by a @ZOMBIE. @ALIVECHAR attempt to remove it, but more hands keep coming and eventually their comrade is gone."],
 #UNIMPORTANT_DEATH", \
 ["@ALIVECHAR is severely wounded by a rampaging zombie. The group work with stranded pieces of wood and form a splint.", 
- "A zombie attack destroys their radio. They hadn't heard any radio transmission in days.",
+ "A zombie attack destroys their radio. They hadn't heard any radio transmission in days."],
 #TRAVEL
 ["Hallway after hallway. The survivors search for anyway to contact help"],
 #CHECK
