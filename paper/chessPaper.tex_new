@@ -1,0 +1,208 @@
+
+\documentclass[journal]{./IEEEtran}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{url}
+\usepackage{cite}
+
+\begin{document}
+\title{Grandmaster Story}
+
+%% Substitions for anything not completely decided 
+\newcommand{\sysname}{Grand Master 
+Story}
+
+\author{\IEEEauthorblockN{Nick~Feeney,
+Mike~Buerli,
+Eric~Buckthal,
+and Connor~Lange}\\
+\IEEEauthorblockA{Computer Science Department\\
+California Polytechnic State 
+University\\
+San Luis Obispo, 
+CA\\
+\url{{ndfeeney,rclange,mbuerli,ebuckthal}@calpoly.edu}}}
+
+\maketitle
+
+\begin{abstract}
+
+In this paper we explore the possibility of using chess games to generate stories. We built a chess 
+game parsing system that could read in 
+and track chess games from the standard PGN format. Next, we 
+defined eleven features which we believed described the state of the game over
+ a set of moves. Using these 
+features we attempted to generate stories based on the chess game through the use of handcrafted story 
+skins. To 
+accomplish the story generation we build a plot tree iterator that was able to handle, text 
+replacement, plot tree iteration, and resources 
+management. We were able to generate fairly good stories that 
+utilized the chess game to determine the plot of the story. Depending on the chess
+ game different events 
+would happen in the plot. Unfortunately, we found that to have the plot of the story closely match the 
+events of the 
+chess game the input story skin needed to be very detailed with many plot nodes. As of now 
+a detailed story skin requires a large amount of 
+human 
+input.
+
+\end{abstract}
+
+\begin{IEEEkeywords}
+story generation, drama analysis
+\end{IEEEkeywords}
+
+\section{Introduction}
+This paper was written to 
+explore the possibility of utilizing chess games to automatically generate stories. We theorised that 
+events 
+that transpire during a chess game could be translated into plot points which could be then 
+combined to create a story. Our solution is 
+comprised of five main sections, chess game parsing, chess game 
+state reconstruction, chess move feature extraction, story plot iterator, 
+and finally stroy 
+skins.
+
+First, we built a PGN chess game parsing system that we used to parse meta data and chess moves from chess 
+games we obtained from the 
+internet. Next, we built a system that could keep track of the current state 
+of the chess board after every chess move. We needed this 
+system because the PGN file format does not 
+include information about the current state of the game it simply lists the moves made during 
+the chess 
+game. We then created a list of eleven features that could be pulled out of a series of chess moves. 
+These features ranged from 
+how dramatic a move was to how far a piece traveled in a set of moves. Next, 
+we built a story plot iterator that assigned chess moves to 
+story plot nodes and then generated text 
+that was bound together to form our stories. To generate the text for a plot node we created a 
+story 
+skin system. These skins were responsible for the text generation. Each skin was capable of utilized 
+text replacement as well as 
+resource management to generate text blocks. In the solution section we go 
+into more detail about how each piece works, for an overall 
+system design see 
+Figure~\ref{sysoverview}.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=3.0in]{./overview}
+\end{center}
+\caption{The \sysname{}}
+\label{sysoverview}
+\end{figure}
+
+
+\subsection{Paper Layout}
+The structure of the rest 
+of the paper is as follows: Section 2 describes previous work, Section 3 explains the design of the 
+\sysname{}, Section 4 discusses the implementation of the \sysname{}, Section 5 analyzes the results of the 
+\sysname{}, Section 6 outlines future work and Section 7 concludes. 
+
+\section{Related Work}
+
+%% 
+Examples
+\subsection{Story Generation}
+
+\subsection{Chess Analysis}
+
+\subsection{Chess Game State Reconstruction} 
+The chess 
+moves \_\_ from the chess parser, represent a set state diagram of the chess game. The only information 
+that is given is the type of piece and destination, as well as if there was a capture or some other 
+activity. Iterating through this list of moves, we are able to disambiguate the correct chess piece as well 
+as the starting location of the piece being moved. In this way we can construct a list of chess moves 
+that not only keeps track of the current state of the game and the chess board, but provide features of 
+each individual move. Moves can be further analyzed by calculating features of the game, like the total 
+number of threatened pieces as well as the number of targeted pieces (pieces that can be captured in the 
+next turn). Ultimately the set of chess moves will be grouped by the plot iterator and features will be 
+extracted from groups of moves.
+
+\subsection{Chess Move Feature Extraction}
+The features that were developed 
+for this project attempted get a general overview of the effect that the group of chess moves had on 
+the game. The exact effect of a feature on the chess game is entirely dependent on the skin that is 
+provided for the story. The exact way a chess game feature is use is explained in the Plot Iterator section. 
+In the end, there were eleven features, Dramatic, Danger, Hero, Travel, Unimportant Death, Important 
+Death, Unimportant Kill, Important Kill, Check, Safety, and Defeat. 
+\begin{itemize}
+\item Dramatic was a 
+feature that we used to measure how many pieces that a player had in threat.
+\item Danger was a feature 
+that we developed to measure how many pieces that a player owns and are in threat.
+\item Hero was a 
+feature that we developed to signal when a single piece takes or kills two or more pieces in a set of 
+moves.
+\item Travel was a feature that we used to signal when a large amount of the chessboard was covered by 
+the pieces of a player.
+\item Unimportant Death signaled when a pawn was lost.
+\item Important Death 
+signaled when a none pawn piece was lost.
+\item Unimportant Kill signaled when a pawn was killed.
+\item 
+Important Kill signaled when none pawn piece was killed.
+\item Check is the feature that signals when a 
+player puts the other player’s king into check.
+\item Safety was the feature signalling that a player 
+won the game.
+\item Defeat signals when a player lost a game.
+\end{itemize}
+
+\subsection{Plot 
+Iterator}
+\subsubsection{Chess Move Grouping}
+\subsubsection{Plot Tree Traversal}
+\subsubsection{Feature Best Matching}
+We tried a 
+few different matching algorithms when attempting to match the chess game features with the story skin 
+features. In the end we got the best results with a very simple direct matching method. Our algorithm 
+compared the features of the chess game with the features of the story plot node and found how many 
+overlapped. We then took to overlapping score and subtracted the difference in the total number of features. 
+This method simply favored plot nodes that had the most features in common and had a similar amount of 
+features.
+\subsection{Skins}
+Skins:
+Plot tree
+A plot tree is defined as a set of plot nodes, or happenings, in a given story. In a given 
+skin, the plot is constructed by a list of plot nodes that each contain a list of indices, describing the 
+set of next possible plot nodes. In this way we can map plot happenings, restricting linear portions of 
+a story’s plot, while also modeling multiple plot branches. This architecture also allows for plot 
+nodes to link back to previous nodes.
+Plot Node
+		Template/Wordset
+		Story Skins
+
+\subsection{Generation 
+of Story Trees} 
+
+\section{\sysname{} Implementation}
+
+\section{Results}
+
+\section{Future Work}
+This 
+project has many pieces that could be expanded for future work. The most obvious and probably the most 
+worthwhile would be to automate the story skin generation. The main limiting factor of this entire project is 
+that the story skins that are needed to generate new stories are handwritten. If there was a way to 
+automatically generate these skins then better and more varying stories could be generated which would also 
+require much less human input.
+
+Another main area for expansion on this project would be feature 
+extraction. We developed a small but potent feature set. Smaller features or less obvious features could be 
+developed which could add more detail into the stories. Character tracking could also be implemented and 
+provide a plot that matched the chess game more accurately. Character tracking would mean that each chess 
+piece is assigned to a character in the story and the fate of that chess piece would dictate that 
+character’s 
+actions.
+
+\section{Conclusion}
+
+\section{Acknowledgment}
+
+\bibliographystyle{IEEEtran}
+\bibliography{IEEEabrv,./references}
+
+\end{document}
+
+ 

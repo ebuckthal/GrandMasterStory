@@ -44,7 +44,7 @@ First, we built a PGN chess game parsing system that we used to parse meta data 
 \begin{center}
 \includegraphics[width=3.0in]{./overview}
 \end{center}
-\caption{A visual summary of the \sysnameacro{} system}
+\caption{A visual summary of the \sysnameacro{}}
 \label{sysoverview}
 \end{figure}
 
