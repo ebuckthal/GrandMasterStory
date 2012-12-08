@@ -5,375 +5,156 @@
 \usepackage{cite}
 
 \begin{document}
-\title{Amateur Radio Satellite File Transfer Protocol (ARSFTP)}
+\title{Grandmaster Story}
 
-\author{\IEEEauthorblockN{Greg~Eddington
+%% Substitions for anything not completely decided 
+\newcommand{\sysname}{Grand Master Story}
+
+\author{\IEEEauthorblockN{Nick~Feeney,
+Mike~Buerli,
+Eric~Buckthal,
 and Connor~Lange}\\
 \IEEEauthorblockA{Computer Science Department\\
 California Polytechnic State University\\
 San Luis Obispo, CA\\
-\url{{geddingt,rclange}@calpoly.edu}}}
+\url{{ndfeeney,rclange,mbuerli,ebucktha}@calpoly.edu}}}
 
 \maketitle
 
 \begin{abstract}
 
-With the recent advances in CubeSat technology, an increasing number of ambitious missions are being planned. Many of these missions will collect a large amount of data and will need to transmit it back to the ground. In order to retrieve the collected data, ground station operators must receive data over amateur radio links which impose several limiting characteristics, including slow baud rates, high drop and corruption rates, high latency, and half-duplex communication. To make matters worse, current file transfer protocols are not designed to handle these limitations. To rectify this issue, we propose a new file transfer protocol named the Amateur Radio Satellite File Transfer Protocol (ARSFTP).  ARSFTP is a protocol specifically designed to overcome the limiting characteristics of satellite communications over amateur radio.
-
-ARSFTP allows for the efficient transfer of files over amateur radio with a link utilization of up to 71\%, compared to the 3\% link utilization of existing file transfer protocols over satellite amateur radio.  In order to test our protocol, a simulator was constructed which induces user specified drop rates, error rates, latency, baud rates, and half-duplex communication. With ARSFTP, we were able to transfer a 750kB file from one computer, through the simulator server, to another computer in under 15 minutes (within the duration of a low Earth orbit satellite pass), using packet shaping to simulate realistic characteristics of nanosatellite communications.
+In this paper we explore the possibility of using chess games to generate stories. We built a chess game parsing system that could read in and track chess games from the standard PGN format. Next, we defined eleven features which we believed described the state of the game over a set of moves. Using these features we attempted to generate stories based on the chess game through the use of handcrafted story skins. To accomplish the story generation we build a plot tree iterator that was able to handle, text replacement, plot tree iteration, and resources management. We were able to generate fairly good stories that utilized the chess game to determine the plot of the story. Depending on the chess game different events would happen in the plot. Unfortunately, we found that to have the plot of the story closely match the events of the chess game the input story skin needed to be very detailed with many plot nodes. As of now a detailed story skin requires a large amount of human input.
 
 \end{abstract}
 
 \begin{IEEEkeywords}
-Amateur radio, CubeSat, File transfer protocol, Nanosatellites
+story generation, drama analysis
 \end{IEEEkeywords}
 
 \section{Introduction}
+Story generation and drama management have explored many fields to attempt to create interactive and interesting drama. The goal of drama management systems is to organize a particular narrative to reflect particular actions of a user; the drama manage often attempts to steer drama in a particular way or change the environment, characters, plot as if the story was being told by a human watching the same events. If a drama manager prefers to have his subjects follow a more specific story arc, the range of actions a user can perform to influence the system are limited. On the other hand, if a system prefers an open-ended environment with many possible plot events and story outcomes it is possible to allow users to choose their own fate. Human emotion and character development is another focused aspect of story mediation. Some systems interpret how the player converses with characters in the game and the game reacts.
+Because our interface for story generation is chess, the control the user has over the course of the story has an interesting aspect--there are a limited set of possible moves the player can provide and there is no set translation from chess moves to story features. Chess has complex strategy in which player advantages and intentions are not easily inferred. The goal of this project was to explore the possibility of utilizing chess games to automatically generate stories. We theorised that events that transpire during a chess game could be translated into plot points which could be then combined to create a narrative plot. Our solution is comprised of five main sections, chess game parsing, chess game state reconstruction, chess move feature extraction, story plot iterator, and finally story skins.
+First, we built a PGN chess game parsing system that we used to parse meta data and chess moves from chess games we obtained from the internet. Next, we built a system that could keep track of the current state of the chess board after every chess move. We needed this system because the PGN file format does not include information about the current state of the game it simply lists the moves made during the chess game. We then created a list of eleven features that could be pulled out of a series of chess moves. These features ranged from how dramatic a move was to how far a piece traveled in a set of moves. Next, we built a story plot iterator that assigned chess moves to story plot nodes and then generated text that was bound together to form our stories. To generate the text for a plot node we created a story skin system. These skins were responsible for the text generation. Each skin was capable of utilized text replacement as well as resource management to generate text blocks. In the solution section we go into more detail about how each piece works, for an overall system design see Figure~\ref{sysoverview}.
 
-CubeSats are small 10cm X 10cm X 10cm nanosatellites with a mass of no more than 1.33kg and have become widely adopted as a viable vehicle for satellite payloads by government agencies \cite{ELaNa}, educational institutes \cite{UniversityTokyoCubeSat}, and commercial industry \cite{LockheedFlorida}.   Because of the cheap cost of launching nanosatellites compared to larger satellites, CubeSats have become the target for a number of payloads which aim to collect relatively large amounts of data.  Most CubeSats communicate via amateur radio bands which impose limitations that reduce the amount of data which can be collected from payloads on-board these satellites.  These limitations include baud rates of 1200 to 9600 bits per second, high packet drop and corruption rates, high latency, and half-duplex communication.  An efficient file transfer protocol designed specifically for satellite communications over amateur radio is necessary to overcome these limitations and to increase the amount of data which can be collected from payloads on future CubeSat missions.
-
-The ability to upload files to CubeSats in space is another reason a file transfer protocol designed for nanosatellites is important for future missions.  Being able to send files provides satellite operators the ability to fix software bugs, update or add software with new features, and create additional tests for payloads.  
-
-The {\tt arsftp} and {\tt arsftpd} programs were designed for CubeSats running Linux with a UDP/IP protocol stack.  Specifically, they were designed for the new bus software architecture created by PolySat, a group of engineers whom design and operate CubeSats.  While in the past many CubeSats were not capable of running Linux with a UDP/IP stack, the increase in the capabilities of embedded hardware has allowed for more CubeSats to run this type of architecture. Examples of such an architecture include PolySat’s new bus \cite{PolySatDampening} and QuakeSat \cite{QuakeSat}.
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=3.0in]{./overview}
+\end{center}
+\caption{The \sysname{}}
+\label{sysoverview}
+\end{figure}
 
 \subsection{Paper Layout}
-The structure of the rest of the paper is as follows: Section 2 describes previous file transfer protocols, Section 3 explains the design of the Amateur Radio Satellite Communication Simulator, Section 4 discusses the implementation of the Amateur Radio Satellite Communication Simulator, Section 5 explains the design of ARSFTP, Section 6 discusses the implementation of ARSFTP, Section 7 analyzes the performance of ARSFTP, Section 8 suggests future work, and Section 9 concludes.
+The structure of the rest of the paper is as follows: Section 2 describes previous work, Section 3 explains the details of the \sysname{}, Section 4 analyzes the results of the \sysname{}, Section 5 outlines future work and Section 6 concludes. 
 
 \section{Related Work}
 
-\subsection{CubeSat Data Transfer Protocols}
+This work was originally founded in the dramatic theory of Vladimir Propp. \cite{Propp68} Propp analyzed Russian folk tales into a specific set of functions--independent plot structures deemed the minimal dramatic step of a story. These functions are understood as an act of a single character, defined with the significance of the course of action. Stemming from the idea of an independent point of plot drama, we evolved to a more open feel because the Propp functions were restricting. Other implementations of Drama Management systems are based heavily on their architecture. 
+Interactive Drama Architecture (IDA) \cite{diageng} proposes three key components to interactive drama: the Writer, the Director, and the User. IDA gives the Writer a reasonable amount of control in plot specification, while considering the desire of the User to control how the drama unfolds. IDA is then a first-order logic representation of several components for each scene and they consider the scene as the smallest dramatic moment and the Writer’s goal is to move the story forward as a whole. After a human supplies a loosely constructed plot, the following concept approaches the drama solution:
+\begin{itemize} 
+\item Annotate each possible object, character, etc. with attributes (whatever they may be) and then heuristically choose the binding for each variable.
+\item Have a default binding for each variable. This would put more work on the designer, but at the same time would allow the Designer to input an instantiation of the story as the default.
+\item Randomly choose a binding. The Director then still retains control of encouraging characters to perform certain actions such as ending the scene.
+\end{itemize}
+In Search-Based Drama Management (SBDM) \cite{sbdm}, a player’s concrete experience in the world is captured by a sequence of Player Moves, abstract plot points that a player’s activity can cause to happen. A single Player Move may encapsulate 5 or 10 minutes of concrete player activity in the world - moving around, picking up objects, interacting with characters and so forth. When the concrete activity “adds up” to a story significant event, then a Player Move is recognized. A SBDM has a set of System Moves available that can materially alter the world (e.g. move objects around, change goals in characters’ heads, etc.) in such a way as to encourage or obviate a Player Move. System Moves give the SBDM a way to warp the world around the player so as to make certain Player Moves more or less likely. Besides the System Moves, the author also provides the SBDM with a story specific evaluation function that, given a complete sequence of Player and System Moves, returns a number indicating the “goodness” of the story. Whenever the drama manager recognizes a Player Move (plot point) occurring in the world, it projects all possible future histories of Player and System moves, evaluates the resulting total histories with the evaluation function, and backs these evaluations up the search tree (in a manner similar to game-tree search) to decide which system move to make next that is most likely to cause a good total story to happen.
+Declarative Optimization-based Drama Management (DODM) focuses on real-time drama integration in video games and it most closely represents the architecture Chess-based Story Generation creates. EMPath \cite{empath} specifically targets a dungeon-style game in which a player is able to explore and complete tasks. The goal is to create a dramatic element to a concrete and playable atmosphere. To configure DODM for a specific world, the author specifies plot points, drama manager actions, and an evaluation function. Plot points are important events that can occur in an experience. Different sequences of plot points define different player trajectories through games or story worlds. Examples of plot points include a player gaining story information or acquiring an important object. 
 
-Although it is difficult to provide a survey of all data transfer protocols on existing CubeSats due to the fact that most of these designs aren’t published, the characteristics of the protocols we have come in contact with are outlined here.  Two common forms of data transfer protocols between ground station and satellite are fixed format transfers and block resolution downlinks.
+%% Examples
+\subsection{Story Generation}
 
-Fixed length downlinks are a common form of sending CubeSat payload and satellite data, and involve sending data in a fixed format and length defined and hard-coded into the program sending and receiving data.  For example, the satellite may send battery information in a form that puts the voltage in the first two bytes and the temperature in the second two bytes.  This form of communication is simple, but is limited to only a small amount of fixed formatted data.
+\subsection{Chess Analysis}
 
-Block resolution downlinks are often used when sending picture and file data, and involve a client requesting a specific file block and the server sending that block.  This provides fine grained control of which packets are sent which is important for requesting packets which have been dropped.  The major limitation of this method is that it induces a huge cost due to the low utilization resulting from the need to send a request for every block over a high latency, half duplex link.
+\section{\sysname{} Design and Implementation}
 
-\subsection{File Transfer Protocols}
+\subsection{Chess Game Extraction} 
+To generate stories from chess games, we first needed to obtain a large number of chess games to use as our data set. We gathered 2,367 games from \_\_ in the form of Portable Game Notation (PGN) files. Since each game was in a known format, we simply extracted the information from each game using a regular expression and stored it in a Python dictionary. Each game included the following custom tags, in addition to the standard PGN set \cite{pgntags} and the set of moves in the game:
+\begin{itemize} 
+\item WhiteELO - the ranking of the white player (not always present)
+\item BlackELO - the ranking of the black player (not always present)
+\item WhiteCountry - the home country of the white player
+\item BlackCountry - the home country of the black player
+\item PlyCount - the total number of half-moves played
+\end{itemize}
 
-Many file transfer protocols exist, but are often designed with link assumptions that are not true when using an amateur radio link for satellite communications.  The two protocols used in comparison to ARSFTP in this paper are FTP (File Transfer Protocol), a well adopted TCP based file transfer protocol, and ATFTP (Advanced Trivial File Transfer Protocol), a UDP based file transfer protocol designed for simplicity and low overhead.
+\subsection{Chess Game State Reconstruction} 
+The chess moves \_\_ from the chess parser, represent a set state diagram of the chess game. The only information that is given is the type of piece and destination, as well as if there was a capture or some other activity. Iterating through this list of moves, we are able to disambiguate the correct chess piece as well as the starting location of the piece being moved. In this way we can construct a list of chess moves that not only keeps track of the current state of the game and the chess board, but provide features of each individual move. Moves can be further analyzed by calculating features of the game, like the total number of threatened pieces as well as the number of targeted pieces (pieces that can be captured in the next turn). Ultimately the set of chess moves will be grouped by the plot iterator and features will be extracted from groups of moves.
 
-\section{Simulator Design}
+\subsection{Chess Move Feature Extraction}
+The features that were developed for this project attempted get a general overview of the effect that the group of chess moves had on the game. The exact effect of a feature on the chess game is entirely dependent on the skin that is provided for the story. The exact way a chess game feature is use is explained in the Plot Iterator section. In the end, there were eleven features, Dramatic, Danger, Hero, Travel, Unimportant Death, Important Death, Unimportant Kill, Important Kill, Check, Safety, and Defeat. 
+\begin{itemize}
+\item Dramatic was a feature that we used to measure how many pieces that a player had in threat.
+\item Danger was a feature that we developed to measure how many pieces that a player owns and are in threat.
+\item Hero was a feature that we developed to signal when a single piece takes or kills two or more pieces in a set of moves.
+\item Travel was a feature that we used to signal when a large amount of the chessboard was covered by the pieces of a player.
+\item Unimportant Death signaled when a pawn was lost.
+\item Important Death signaled when a none pawn piece was lost.
+\item Unimportant Kill signaled when a pawn was killed.
+\item Important Kill signaled when none pawn piece was killed.
+\item Check is the feature that signals when a player puts the other player’s king into check.
+\item Safety was the feature signalling that a player won the game.
+\item Defeat signals when a player lost a game.
+\end{itemize}
 
-In order to test ARSFTP, a simulator was developed which imposes the limitations of satellite communications over amateur radio on all packets.  This simulator was added on top of a previously existing satellite communication architecture shown in Figure~\ref{fig_gss}.a.  In this architecture, all IP packets destined to the satellite are sent to a ground station server (GSS).  The GSS performs a set of functions (such as compression and packet fragmentation) to prepare the packet for the satellite, and then sends the packet to the satellite through the radio if the satellite is in space, or Ethernet if the satellite is on the ground.  Likewise, the GSS intercepts all packets being sent from the satellite and forwards them to their respective destination after performing a set of functions (i.e. decompression).  Our simulated packet shaping was added to the Ethernet communication path, as shown in Figure~\ref{fig_gss}.b.  
-
-\begin{figure}[h!]
-\begin{center}
-\includegraphics[width=3.0in]{./gss}
-\end{center}
-\caption{(a) The satellite communication path.  Packets sent to and from the satellite pass through the ground station server. (b) The satellite communication path with satellite amateur radio packet shaping added to the Ethernet path.}
-\label{fig_gss}
-\end{figure}
-
-The simulator introduced several limitations of satellite communications over amateur radio on packets being sent to and from the satellite over Ethernet.  These limitations include the following: the baud delay induced by radio hardware, latency caused by the time it takes for a packet to travel between the ground station and the satellite, packet corruption and packet drops which are frequent in space communications, packet size limitations of radio link layer protocols, and the half-duplex limitations of radio hardware.   
-
-\section{Simulator Implementation}
-The simulator was implemented as a set of optional packet shaping callbacks written in C++ which were added to the ground station server (GSS).  All packets to and from the satellite pass through the GSS, where they pass through the simulation packet shaping functions.
-
-All packets passing through the GSS were placed in a queue.  The attributes recorded for each packet placed in the queue are shown in Table~\ref{table_packet_attributes}.  Packet shaping is performed by manipulating packets in this queue.  A timed event was added to the GSS which fires when the packet at the head of the queue is ready to be sent.  The packet is then removed from the queue, sent to its target, and the timed event is again added for the new head of the queue.
-
-\begin{table}[h!]
-\caption{Simulation Shaped Packet Attributes}
-\label{table_packet_attributes}
-\begin{center}
-\begin{tabular}{|l|p{5.5cm}|} \hline
-\textbf{Parameter} & \textbf{Function} \\ \hline
-{\tt Data} & The data contained in the packet. \\ \hline
-{\tt Size} & The number of data bytes the packet contains. \\ \hline
-{\tt Direction} & The direction the packet is being sent (sent or received). \\ \hline
-{\tt Start Time}  & The time the packet will start being transmitted. \\ \hline
-{\tt Baud Delay}  & The delay on the packet caused by hardware baud rates. \\ \hline
-{\tt Latency Delay}  & The delay on the packet caused by trip latency. \\ \hline
-\end{tabular}
-\end{center}
-\end{table}
-
-A list of parameters which control the simulation packet shaping are shown in  Table~\ref{table_shaping_parameters}.  Before being handled by our packet shaping code, the ground station server will fragment the IP packet according to the user defined MTU of the radio link layer.  A packet being added to the buffer is first shaped with hardware delays by adding a baud delay equal the size of the packet divided by the parameter {\tt BAUD\_RATE}.  A delay for the latency to travel between the satellite and ground station is added as a constant value equal to the parameter {\tt LATENCY\_LENGTH}.  Equation~\ref{eq_shaping} shows the total packet delay incurred by baud rate and latency, where n is the size of the packet in bits.  
-
-
-\begin{equation}
-\label{eq_shaping}
-Delay = \frac{n}{BAUD\_RATE} + LATENCY\_LENGTH
-\end{equation}
-
-Because packets being sent in the same direction have to wait for hardware delays, if the packet that is at the tail of the queue is in the same direction as the packet being added, the start time of the packet is set to the greater value of the following: the time the packet was received by the GSS, or the time the baud delay of the tail packet of the queue is finished.  
-
-To simulate half duplex, two algorithms are used depending on whether the 
-\begin{table*}[!ht]
-\caption{Packet Shaping Parameters}
-\label{table_shaping_parameters}
-\begin{center}
-\begin{tabular}{|l|p{13.0cm}|} \hline
-\textbf{Parameter} & \textbf{Function} \\ \hline
-{\tt BAUD\_RATE} & The number of bits per second the hardware sends. \\ \hline
-{\tt LATENCY\_LENGTH}  & The number of milliseconds of latency between the ground station and satellite. \\ \hline
-{\tt PARTITION\_HALF\_DUPLEX} & A flag used to set the simulation of a link layer which partitions time for half duplex communications. \\ \hline
-{\tt DROP\_HALF\_DUPLEX}  & A flag used to set the simulation of a link which simulations half duplex by dropping collisions. \\ \hline
-{\tt HALF\_DUPLEX\_WINDOW\_ERROR}  & The number of milliseconds of unused time added as error due to inaccuracies in half duplex partitions. Only used when {\tt PARTITION\_HALF\_DUPLEX} is set. \\ \hline
-{\tt DROP\_RATE}  & The percentage of packets which are dropped. \\ \hline
-{\tt CORRUPTION\_RATE}  & The percentage of bytes which are corrupted. \\ \hline
-\end{tabular}
-\end{center}
-\end{table*}
-{\tt PARTITION\_HALF\_DUPLEX} or {\tt DROP\_HALF\_DUPLEX} flags are set.  If the {\tt PARTITION\_HALF\_DUPLEX} flag is set, then if the direction of the new packet and tail packet are different, the new packet must wait for the link to switch directions, and thus must wait for the latency delay of the tail packet.  The start time of the new packet is set to the maximum of either: the time the tail packet’s latency delay is finished, plus a {\tt HALF\_DUPLEX\_WINDOW\_ERROR} parameter which simulates any extra time created because of error in the link layer’s partitions of send and receive windows; or the time it was received by the GSS.  If the {\tt DROP\_HALF\_DUPLEX} flag is set, then a simulation is used which represents the case of having a link layer which does not partition send and receive time slots, such as AX.25 \cite{ax.25}, a protocol commonly used on CubeSat amateur radio links.  To simulate this, if the packet on the tail of the queue is a different direction than the new packet being added, and the new packet starts before the tail packet’s latency delay is finished, then the new packet is dropped.
-
-Once a packet is removed from the head of the queue, it passes through packet shaping which applies packet drops and corruption.  A random number generator is used to produce a floating point value between 0 and 1, and is compared against the {\tt DROP\_RATE} threshold.  If the random number is below the threshold, then the packet is dropped and never sent to its destination.  Similarly, a random number between 0 and 1 is generated for each byte of the packet and compared again the {\tt CORRUPTION\_RATE} parameter.  If the number is below this threshold, then the byte is corrupted by replacing it with a bitwise inverse.  The packet is then returned to the standard code path of the GSS which forwards the packet to its target destination.
-
-\section{ARSFTP Design}
-
-\subsection{Limitation Designs}
-
-Several design decisions were made specifically to increase the performance of ARSFTP in the presence of the various limitations of satellite communication over satellite radio.
-
-\subsubsection{High Drop and Corruption Rates}
-
-One major limitation of nanosatellite communication is the high packet drop and packet corruption rates.  This is due to both the noisy interference caused by the signals passing through space, as well as the relatively low receive strength and transmit power of radios on CubeSats compared to radios on larger satellites.
-
-The high drop and corruption rate prevents utilization of protocols which assume a clean link.  One prime example is TCP stacks which implement exponential back-off on a packet loss.  In order to see the effects of packet drops and packet corruption of a file transfer protocol over TCP, an experiment was run where a 4490~hyte file was sent from one machine to another through the ground station server.  The ground station server applied a 9600 baud rate and 100ms latency delay to each packet using full duplex, and then performed packet dropping and packet corruption.  Figure~\ref{fig_tcp} shows the effects of different drop and corruption rates on the link utilization of the file transfer for transfers which did not time-out.
-
-Based on this test, it is apparent that this exponential back-off severely affects the performance of any protocol running on top of it when going over a communication link with high drop rates.  This is one reason UDP was chosen for the transport layer protocol, in addition to the fact that TCP's sliding window protocol can negatively impact performance due to high latency and half-duplex communication.
-
-\begin{figure}[!h]
-\begin{center}
-\includegraphics[width=2.5in]{./tcp}
-\end{center}
-\caption{The time of completion for the file transfer running on TCP vs. the packet drop and packet corruption rate.}
-\label{fig_tcp}
-\end{figure}
-
-Another impact high packet drop and corruption rates had on our protocol design was the consideration of sending redundant data in hopes that one packet would make it, in order to avoid dropping a packet and having to incur the high cost of switching from send to receive in a high latency, half duplex link.  This is further described in the ARSFTP Implementation and Results sections.
-
-\subsubsection{High Latency}
-
-Due to the large distances of roughly 160-300km between CubeSats and ground stations \cite{BrownDeorbit}, there is significant latency between when a packet is sent and when it is received.  This can cause large delays and decrease link utilization when protocols are waiting for a reply (i.e. a sliding window protocol when a window is closed).  
-
-In order to illustrate this effect, two programs were written which ran on top of UDP.  The first sent a 256 byte packet and waited for a 256 byte reply 500 times, and the second sent 500 packets and then waited for 500 reply packets.  Both programs sent and received the same amount of data, but the former used a stop and wait protocol while the latter sent everything in one batch and received everything in another batch.  These two programs were run through the packet shaping ground station server with packet shaping set up for 9600 baud with a 100ms latency delay using half-duplex.  No packet drops or corruption were induced.  Figure~\ref{fig_latencytest} shows the results, with the stop and wait styled program taking 70.238 seconds to complete and the batch program taking 19.041 seconds
+\subsection{Skins}
+\subsubsection{Plot tree}
+A plot tree is defined as a set of plot nodes, or happenings, in a given story. In a given skin, the plot is constructed by a list of plot nodes that each contain a list of indices, describing the set of next possible plot nodes. In this way we can map plot happenings, restricting linear portions of a story’s plot, while also modeling multiple plot branches. This architecture also allows for plot nodes to link back to previous nodes. An example of what a plot tree may look like for a given story is shown in Figure~\ref{plotree}
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=2.5in]{./latencytest}
+\includegraphics[width=3.0in]{./plotTree}
 \end{center}
-\caption{The time to program completion of the stop-and-wait program and the pipeline program which batched sends and receives separately.}
-\label{fig_latencytest}
+\caption{The \sysname{} Plot Tree}
+\label{plotree}
 \end{figure}
 
-ARSFTP was designed to pipeline data and avoid the penalty of waiting for a receive by sending every block of the file needed by the receiving end at once.
 
-\subsubsection{Half-Duplex Communication}
+\subsubsection{Plot node}
+A plot node is the fundamental unit of the plot graph. It includes templates, all features associated with the template(s), resources associated with the node, wordsets used for populating the templates, and a list of nodes in the plot graph that are reachable from this node. Each plot node also contains a generateText() method that populates the chosen template with selected words from the template's wordset. 
 
-The radio transceivers used on current CubeSats are half-duplex, and must be switched from a receive mode to a transmit mode, and vice versa.  This is also the case for many amateur radios used by nanosatellite ground station operators.  This configuration especially limits existing file transfer protocols as many assume a full-duplex communication link in order to continuously send file blocks one direction and acknowledgment packets the other direction.  
+Text generation is done by selecting a random template from the list of template and doing tag replacement. Tag replacement is done recursively, replacing tags within tags with random choices from the skin’s wordset. While replacing tags, the plot node also keeps track of resources used, deleting a resource word or tag if it is used in a sentence. Lastly after a template has been converted into a sentence, or sequence of sentences, the template used is removed from the list. Once a plot node runs out of templates, the plot iterator can no longer branch to that specific node. This allows for two levels of randomness, both on the sentence level and the word level while never repeating the same template twice.
 
-The cost of switching between sending and receiving introduces three costs which can greatly reduce utilization on a link layer designed for half-duplex.  The first cost is due to the fact that there is a relatively low granularity of time synchronization between the ground station and satellite, which can cause a receiver to switch early and miss packets, or switch late and reduce link utilization.  Another cost is attributed to the high latency communication, and requires that the full latency delay be incurred for the final packet.  The final cost can occur because of the time it takes to switch between the two modes on a given piece of hardware.
+In addition to methods that populate the story, the plot node class also contains methods to determine properties of the plot graph such as shortest distance from the current node to a node that concludes the story and the maximum depth of the plot tree. These properties are ultimately used during the story generation phase of \sysname{} to ensure the constructed story matches the chess game.
 
-On a link layer which is designed to partition send and receive time between to nodes, this can cause a great number of lost packets due to hardware being in the incorrect mode.  For this reason, we assume that the link layer ARSFTP will run on is designed to partition send and receive windows between the client and server.
+\subsubsection{Templating}
+The story skin contains a list of lists of templates that are associated with each plot node. Templates are patterns or structures that form a sentence or group of sentences. They are put together like a normal sentence, however with words and phrases replaced by tags. Tags are defined as words(alpha-numeric) that begin with an ‘@‘ character. These words or phrases are replaced at runtime with words or phrases from the corresponding tag in the wordset. Tags can be recursive, with tag mentions within a value for a given tag.
 
-In order to maximize link utility, ARSFTP was designed to reduce the total number of switches between sending and receiving.  In order to accomplish this, communication during the file transfer is divided into two phases which send the largest amount of non-redundant information as possible. In one phase, all the needed blocks of the file are sent in one direction, and in the other phase a group of acknowledgment packets are sent in the other direction.
-\subsubsection{Limited Communication Window}
+The wordset for a plot is a dictionary constructed from four parts in the skin; words, constants, choices, and resources. Words, the most general type in the wordset, is a dictionary lists for each tag. Each list contains one or more strings, from which one will be randomly chosen for every instance of the tag in the given template. Constants, much like “words”, is also a dictionary of lists. Its main difference is that one string is chosen from the list at the beginning and remains constant throughout a given story. Next, “choices” is a list of tuples that contain tags and options. At the beginning of story generation, the tags are randomly mapped to the option strings, so that no two tags have the same value. This allows for easy assignment of groups of names and objects to tags. Lastly “resources” is a dictionary of tags where strings from each list are deleted once they are used. If all values have been deleted the tag defaults to the “words” set for replacement. 
 
-Another limitation of satellite communication is the limited time window for communication.  For a nanosatellite which is in low earth orbit, this equates to roughly 5 to 15 minute passes when the satellite is within line of sight of the ground station, and roughly 6 passes per day, depending on the orbit and ground station location \cite{n2yo}.  For file transfer protocols which require that a transfer completes without timing out, this reduces both the file size that can be transferred, and creates wasted time at the end of a pass where there is not enough time for a transfer to complete.
 
-In order to overcome this limitation, file transfer state is saved when a timeout occurs with an identifier so that a file transfer can be resumed at a later time.
 
-\section{Protocol Implementation}
 
-Two programs were written in C: a client program {\tt arsftp}, which is run by the mission operator on the ground, and a server program {\tt arsftpd}, which is a daemon that runs on the satellite.
+\subsubsection{Story Skins}
+War story - text replacemet
+Romeo and Juliet - plot branches
+Zombie Story - feature analysis
 
-\subsection{File Transfer}
-ARSFTP supports both the transfer of data from the server (satellite) to the client via the GET command and the transfer of the data from the client to the satellite via the PUT command.  A file transfer using ARSFTP is broken down into three phases: initialization, file transfer, and completion.
+\subsection{Plot Iterator}
+The Plot Iterator is the component of \sysname{} that generates story content from chess move features and a plot graph. Each portion of the iterator is discussed in detail in the following subsections. 
 
-The initialization packet is the first packet sent from the client to the server, and contains the fields listed in Table~\ref{table_init_packet}.  For the GET command, the file size field is zeroed out, and the server will respond with another initialization packet which contains the correct file size.  Currently the only flag bits utilized in the initialization packet are a bit to indicate a resuming GET or PUT that will attempt to continue a timed out file transfer and a bit to indicate an access violation or file not found error error used by the server when returning the second initialization packet.  
+\subsubsection{Chess Move Grouping}
+Since most of the games we extracted tended to have upwards of 50 moves in them, we couldn’t map plot nodes (of which there are less than 50) to each individual move in a game. We originally attempted to use aggregate statistics about the game , in conjunction with examining the features of a particular move to determine importance, to influence a weighted drop rate when pruning moves. However, this lead to less than satisfactory results and we ultimately decided to utilize a uniform grouping of moves. The features for each individual move in the grouping are summed to produce the features of the move grouping. 
 
-\begin{table}[h!]
-\caption{Initialization Packet Fields}
-\label{table_init_packet}
-\begin{center}
-\begin{tabular}{|l|l|} \hline
-\textbf{Field} & \textbf{Size} \\ \hline
-Filename & 128 Bytes \\ \hline
-File Size & 4 Bytes \\ \hline
-Block Size & 4 Bytes \\ \hline
-Flags & 1 Byte \\ \hline
-Command & 1 Byte \\ \hline
-Checksum & 2 Bytes \\ \hline
-\end{tabular}
-\end{center}
-\end{table}
+\subsubsection{Plot Tree Traversal}
+The traversal of the plot graph starts with the first plot node, which is fixed for a given skin. The plot iterator then traverses each node one-by-one, calling each node’s generateText() method to build parts of the story, until it gets to a potential branch (either an omission of an event or a different plot path) in the plot graph. To determine which path to take in the plot graph, the iterator calculates the total feature correlation of the move grouping by summing the weights of each feature for each move. Whichever plot node in the graph has the most similar value to the calculated feature weights of the move grouping is chosen. The exact method of calculating feature weights is discussed in the following section. The plot iterator then repeats this process until it gets to the end of the plot graph.
 
-On a PUT command, the server will acknowledge the file transfer using an ack packet which contains the fields listed in Table~\ref{table_ack_packet}, and on a GET command the client will do the same.  The acknowledgement packet contains two flags which can be used by the server to signal an access violation error.  The ack packet also contains a bit vector with each bit representing whether or not a block is needed.  The total size of the bit vector, in bytes, is shown by (\ref{eq_ack_size}).  The reason the first ack packet contains this bit vector is to allow for the ability to resume file transfers, in which the first ack packet contains information on the state of the transfer before timing out.
+\subsubsection{Finding the Best Marched Feature}
+We tried a few different matching algorithms when attempting to match the chess game features with the story skin features. In the end we got the best results with a very simple direct matching method. Our algorithm compared the features of the chess game with the features of the story plot node and found how many overlapped. We then took to overlapping score and subtracted the difference in the total number of features. This method simply favored plot nodes that had the most features in common and had a similar amount of features.
 
-\begin{table}[h!]
-\caption{Acknowledgement Packet Fields}
-\label{table_ack_packet}
-\begin{center}
-\begin{tabular}{|l|l|} \hline
-\textbf{Field} & \textbf{Size} \\ \hline
-Checksum & 2 Bytes \\ \hline
-Flags & 1 Byte \\ \hline
-Ack Vector & Variable \\ \hline
-\end{tabular}
-\end{center}
-\end{table}
-
-\begin{equation}
-\label{eq_ack_size}
-Ack Size =\left\lceil\frac{\left(\frac{File Size}{Block Size}\right)}{8}\right\rceil
-\end{equation}
-
-Once the header is received by the target and the request is accepted, the transfer moves to the file transfer stage of the protocol.  The sender then sends the entire file to the receiver in a pipelined fashion without stopping to wait for an acknowledgement from the target until after the whole file has been sent. It does so in a block resolution, sending a block packet with fields shown in Table~\ref{table_block_packet} for each block requested by the receiving end.  After the file has been sent, the receiver sends an acknowledgment packet, containing which blocks of the file it is missing, to the sender. The sender then retransmits the missing blocks to the target. This cycle of asking for missing blocks and resending only the missing ones continues until the receiver acknowledges that is has successfully received the entire file.
-
-\begin{table}[h!]
-\caption{File Block Packet Fields}
-\label{table_block_packet}
-\begin{center}
-\begin{tabular}{|l|l|} \hline
-\textbf{Field} & \textbf{Size} \\ \hline
-Block Number & 4 Bytes \\ \hline
-Checksum & 2 Bytes \\ \hline
-Block Data & Variable \\ \hline
-\end{tabular}
-\end{center}
-\end{table}
-
-After the sender has received an ack flag which acknowledges that all blocks have been received, it moves to the completion stage of the transfer.  It will send a series of finish acknowledgement packets to the satellite to acknowledge that the transfer is complete.  Once the finished acknowledgement is received, the file transfer is terminated successfully.
-
-At each stage of the process, packet timeouts are present.  On a timeout, the side which has timed out on a packet will resend the packet(s) it is waiting for a response from.  Once a user defined threshold of packet timeouts occur, the file transfer times out and is terminated.
-
-\subsection{Resuming Timeouts}
-In order to allow the ability to resume a file transfer after a timeout, a directory was created to store timed out file information for both the {\tt arsftp} and {\tt arsftpd} programs.  When a file transfer times out, instead of removing the file and all state information of the transfer, it is stored in this directory.  The directory contains timed out files and a mapping file.  The mapping file contains a dictionary which uses the filename and file checksum as a key and the ack flags, file size, block size, and timeout timestamp as values.  When a timeout occurs the file being transferred is moved to this directory, and the mapping file is updated to include an entry for the file.
-
-When a resuming PUT file transfer command is received by {\tt arsftpd}, it first checks the mapping file in the timeout directory using the PUT file’s filename and checksum to see if an entry exists.  If an entry does exist, it moves the partially completed file to the destination, loads the ack flags from disk, and continues the file transfer using the entry as its current state.  The first ack packet sent will contain the flags loaded from disk, thus the {\tt arsftp} program will only send file blocks needed by the server.  If the file does not already exist in the timeout directory and mapping file, then the file transfer continues as normal.  Similarly, on a resuming GET command, the {\tt arsftp} client program will check the file checksum returned by the server and use that, along with the filename, as the key into the mapping file.
-
-Timeout timestamp values are stored along with keys to allow for the timeout directory to be maintained.  Files can be periodically removed from the timeout folder using the timeout timestamp to prioritize the removal of older files.
-
-\section{Evaluation}
-To test the ARSFTP protocol, the following setup was used. A Dell OptiPlex 755 was used as the client computer running {\tt arsftp}, a virtual machine on a Dell PowerEdge 2950 was used as the ground station server outlined in Sections 3 and 4, and a Dell OptiPlex 780 was used as the satellite server computer running {\tt arsftpd}. Each test data point is the mean of five successful file transfers timed using the Unix {\tt time} command.  The link utilization was calculated as shown in (\ref{eq_link_util}).
-
-\begin{equation}
-\label{eq_link_util}
-Link Utilization =\frac{\left(\frac{\left(File Size*8\right)}{BAUD\_RATE}\right)}{Transfer Time}
-\end{equation}
-
-For the following tests, a 4490 byte image was sent from the ground station client computer to the satellite server computer using the PUT command. Each set of transfers were parametrized with different drop and error rates. Both file transfer protocols were configured to use 512 byte block sizes.  All packet drops and byte corruption rates indicate artificial drops and corruption added to network traffic by the simulator, and do not include normal network drops or corruption, drops due to half duplex collisions when a drop on collision link layer was being simulated, and tail drops due to a filled queue on the simulator.
-
-Initially, our tests of the ARSFTP protocol showed sporadic file transfer times.  Upon further investigation, it was noted that one major flaw of the proposed protocol was that only one acknowledgement packet was sent for each time every block needed by the receiving end was sent.  Once packet drops and corruption were added to the communication, if the acknowledgement packet was dropped the sending side would react by resending all the blocks again based on the previously received ack bit vector.  This resulted in a lot of redundant data being sent if one of the first few acks were dropped, and caused a large fluctuation in completion times depending on if, and which, acknowledgement packets were dropped.  
-
-In order to resolve this, the file transfer protocol was modified to send a number of duplicate acknowledgement packets at the end of a file transfer iteration, instead of just one.  This reduces the chance that all ack packets would be lost and all received file blocks would be resent while minimizing the number of times the communication switches from sending to receiving.  This comes at the cost of potentially sending redundant and unused ack packets.  Figure~\ref{fig_acks} shows the link utilization using the naive one ack packet per file transfer iteration method, and a more consistent and robust four ack packet per file transfer iteration method.
-
-\begin{figure}[!ht]
-\begin{center}
-\includegraphics[width=4.0in]{./ack}
-\end{center}
-\caption{The link utilization of the ARSFTP protocol using one ack packet and four ack packets per file transfer iteration with varying (a) packet drop rates and (b) byte corruption rates.}
-\label{fig_acks}
-\end{figure}
-
-The same test suite was run on both ARSFTP and ATFTP, a UDP based file transfer protocol used for comparison against a protocol not designed with the limitations of amateur radio satellite communications in mind.  This test was designed to show the effect of different packet drop rates and byte corruption rates on link utilization.  The test was also run on several different half duplex configurations.  The first is an ideal half-duplex configuration, where there is perfect partitioning of send and receive windows between the server and the client.  This is shown in Figure~\ref{fig_ideal}.  The second test was run using a half duplex configuration in which packets were dropped on a collision.  This is shown in Figure~\ref{fig_drop}.  Finally, a test was run using a non-ideal half-duplex configuration, with a one second buffer added between send and receive windows during which no packets are sent.  This was designed to simulate a practical link layer which accommodates synchronization differences between the ground computer and satellite.  The results are shown in Figure~\ref{fig_nonideal}.
-
-\begin{figure}[!ht]
-\begin{center}
-\includegraphics[width=4.0in]{./ideal}
-\end{center}
-\caption{The link utilization of the ARSFTP and ATFTP protocol on a half-duplex link layer which ideally partitions send and receive windows, with varying (a) packet drop rates and (b) byte corruption rates.}
-\label{fig_ideal}
-\end{figure}
-
-\begin{figure}[!ht]
-\begin{center}
-\includegraphics[width=4.0in]{./drop}
-\end{center}
-\caption{The link utilization of the ARSFTP and ATFTP protocol on a half-duplex link layer which drops on collisions, with varying (a) packet drop rates and (b) byte corruption rates.}
-\label{fig_drop}
-\end{figure}
-
-\begin{figure}[!ht]
-\begin{center}
-\includegraphics[width=4.0in]{./nonideal}
-\end{center}
-\caption{The link utilization of the ARSFTP and ATFTP protocol on a half-duplex link layer which adds a one second buffer between send and receive windows, with varying (a) packet drop rates and (b) byte corruption rates.}
-\label{fig_nonideal}
-\end{figure}
-
-In all tests, ATFTP outperformed ARSFTP when there were no packet drops or byte corruption, but once the two were added to the simulation the link utilization of ATFTP fell significantly. On the other hand, the link utilization of ARSFTP did not decrease much when artificial packet drops and byte corruption were added to the simulation.
-
-The 10\% packet drop rate and 0.0008\% byte corruption rate were used as a test case for real satellite communication conditions.  Figure~\ref{fig_halfduplex} shows a comparison of the link utilization for the three half duplex configurations for both ARSFTP and ATFTP.  Both protocols performed relatively poorly when using a drop on collision half-duplex compared to an ideal half-duplex.  ARSFTP is affected more because if all acknowledgement packets collide or are dropped, a high cost is incurred.  ARSFTP performs very well with a practical half duplex link layer which partitions time windows, dropping only 1\% in link utilization when compared to the ideal case.  This is because ARSFTP is designed specifically to avoid switching between sending and receiving and the link utilization penalty associated with such switches.  In contrast, ATFTP performs relatively poorly with a practical partitioning scheme as it is designed with a full duplex link layer in mind, and expects to be able to send acks at the same time blocks are being sent.
-
-\begin{figure}[h!]
-\begin{center}
-\includegraphics[width=3.0in]{./halfduplex}
-\end{center}
-\caption{Comparison of ARSFTP and ATFTP using three different half-duplex configurations, with a 10\% packet drop rate and 0.0008\% byte corruption rate.}
-\label{fig_halfduplex}
-\end{figure}
-
-Using the non-ideal half-duplex time partitioning scheme with a 10\% drop rate and 0.0008\% byte corruption rate being simulated, files of varying sizes were transferred using ARSFTP.  The test was performed with ARSFTP configured to 512 byte blocks.  The results are shown in Figure~\ref{fig_filesize}.  Increasing the size of the file being transferred increases link utilization, suggesting that the initialization and completion portions of the file transfer are a source of significant overhead.  The file transfer portion of the protocol, on the other hand, produces high link utilization.  This is likely because the initialization and completion portions of the protocol require communicating back and forth, which is costly on the half-duplex link.
-
-\begin{figure}[h!]
-\begin{center}
-\includegraphics[width=2.43in]{./filesize}
-\end{center}
-\caption{The link utilization of ARSFTP when transferring files of various sizes over a non-ideal half duplex link using a 10\% packet drop rate and 0.0008\% byte corruption.}
-\label{fig_filesize}
-\end{figure}
-
-A test was then performed using the non-ideal half-duplex time partitioning scheme using ARSFTP with various block sizes.  The test was performed with a 10\% drop rate and 0.0008\% byte corruption rate being simulated, with a 44.9 kB file being transferred.  The results are shown in Figure~\ref{fig_blocksize}.  As a result of analyzing the protocol, two limiting factors were found regarding block sizes.  Increasing the block size will reduce the number of file block headers sent, but will incur larger penalties when a byte is corrupted for a packet, as the whole block is dropped.  However, if the number of acknowledgement packets is fixed, then decreasing the block size will present the problem of increasing the acknowledgement packet’s size.  With a larger acknowledgement packet, there is a greater chance of corrupting a byte in the packet and losing the whole acknowledgement.  In order to alleviate the latter limitation, the protocol was changed so that a variable number of acknowledgement packets are sent depending on the ack size.  The optimal number of acknowledgement packets to send is presented in (\ref{eq_num_acks}), with sigma being the standard deviation of the packet error rate from (\ref{eq_packet_error}).
-
-\begin{eqnarray}
-\label{eq_packet_error}
-Packet Error Rate &=& \left(\% Packets Dropped\right) * \\
-&& \left(1-\left(\% Bytes Corrupted\right)\right)^{Ack Size} \nonumber
-\end{eqnarray}
-
-\begin{equation}
-\label{eq_num_acks}
-Number Of Acks = \frac{\left(1+3\sigma\right)}{Packet Error Rate}
-\end{equation}
-
-\begin{figure}[h!]
-\begin{center}
-\includegraphics[width=2.5in]{./blocksize}
-\end{center}
-\caption{The link utilization of ARSFTP when transferring a 44.9 kB file over a non-ideal half duplex link using a 10\% packet drop rate and 0.0008\% byte corruption rate using several different block sizes.}
-\label{fig_blocksize}
-\end{figure}
-
-After making this change, a block size which would fit into MTU of the link layer being simulated was hand calculated. The block size of 218 bytes was calculated by taking the 256 byte MTU, subtracting the 24 bytes for the IP header, the 8 bytes for the UDP header, and the 6 byte header of ARSFTP's file block packets. Using this block size minimizes overhead of headers from the link, network, and transport layers on the transfer.  
-
-Using the new 218 byte block size, a series of tests were run to determine the maximum amount of data which could be sent in a single fifteen minute CubeSat pass.  The simulator was set to a 10\% packet drop rate and 0.0008\% byte corruption rate simulation over a non-ideal half-duplex link.  Table~\ref{table_pass_data} shows the results of the test.  On average, a 750kB file was able to be transferred within a fifteen minute satellite pass, as opposed to 26kB using ATFTP, resulting in 24 fold improvement of link utilization when using ARSFTP as opposed to ATFTP.
-
-\begin{table}[h!]
-\caption{Maximum Filesize for a Single Pass File Transfer}
-\label{table_pass_data}
-\begin{center}
-\begin{tabular}{|l|l|l|l|} \hline
-\textbf{Protocol} & \textbf{File Size} & \textbf{Transfer Time} & \textbf{Link Utilization} \\ \hline
-ARSFTP & 750kB & 14m 54s & 0.72 \\ \hline
-ATFTP & 26kB & 14m 33s & 0.03 \\ \hline
-\end{tabular}
-\end{center}
-\end{table}
+\section{Results}
+Need results
 
 \section{Future Work}
+This project has many pieces that could be expanded for future work. The most obvious and probably the most worthwhile would be to automate the story skin generation. The main limiting factor of this entire project is that the story skins that are needed to generate new stories are handwritten. If there was a way to automatically generate these skins then better and more varying stories could be generated which would also require much less human input.
 
-The majority of the work on ARSFTP presented in this paper was directed towards designing an efficient file transfer protocol with the focus being on the actual file transfer, via the GET and PUT commands.  For this reason, some other commands, such as list and remove commands, have not yet been implemented, as there is much less room for optimization.  We plan to implement these abilities in the near future, with a specialized form of file listing which recursively lists directories.  This is important because if a user wishes to find a file in a directory tree which they are unfamiliar with, the act of listing each file individually will drastically decrease performance due to large latencies in communication.
-
-Another area where future work is possible is in the user interface of the {\tt arsftp} program.  Because the program will be used by mission operators who may not have computer-related backgrounds, it is important that the interface be relatively simple and intuitive so that it can be used by many people to collect payload data.
-
-Another important area of future work is making improvements to different aspects of the ARSFTP implementation. Currently projected improvements are the compression of the protocol header and ACKs to reduce overhead, implementing a form of user permissions in the protocol, and determining the optimum values for configuration attributes in ARSFTP for an actual mission’s communication characteristics.
-
-The final addition to ARSFTP which would be desired is the ability to parametrize the file transfer protocol (i.e. change the block size or timeout durations) remotely.  This is especially important as communication characteristics of CubeSats have not been well-studied, and being able to efficiently adjust the properties of the file transfer protocol on a satellite in space would allow mission operators to maximize file transfer efficiency by reconfiguring ARSFTP to suit their mission’s communication characteristics, thus allowing them to collect more payload data.
+Another main area for expansion on this project would be feature extraction. We developed a small but potent feature set. Smaller features or less obvious features could be developed which could add more detail into the stories. Character tracking could also be implemented and provide a plot that matched the chess game more accurately. Character tracking would mean that each chess piece is assigned to a character in the story and the fate of that chess piece would dictate that character’s actions.
 
 \section{Conclusion}
-
-Although many protocols exist for the transfer of files between two machines, very few are designed to account for the drop rates, error rates, half-duplex link layer, and latency introduced by amateur radio communication. To solve these problems, we propose the use of ARSFTP, a protocol designed specifically for satellite communication over amateur radio. ARSFTP overcomes the various limitations of satellite communication through the use of pipelining and minimizing switches between sending and receiving. ARSFTP sends the entire file at once and then waits for a single acknowledgement packet which contains which blocks the recipeint is missing. ARSFTP then repeats the process, sending only those missing blocks. This behavior allows ARSFTP to maximize its link utilization and throughput. Under realistic conditions, ARSFTP is able to transfer a 750kB file in just under 15 minutes with a link utilization of 71\%. In comparison to ARSFTP, the existing UDP file transfer protocol ATFTP was only able to transfer 26kB in just under 15 minutes, with a link utilization of 3\%, under the same conditions, resulting in a 24 fold improvement of link utilization by ARSFTP.  
-
-Although we have not completed all optimizations at the writing of this paper, the initial version of ARSFTP is already several orders of magnitude more efficient than the existing fixed length and block resolution downlinks present on CubeSat nanosatellites, and an order of magnitude more efficient than using a traditional file transfer protocol.
-
-In addition to the implementation of ARSFTP, we have also implemented a simulator for satellite communication over amateur radio packet shaping on our existing ground station server. Through the use of the different parameters in our packet shaping, we are able to run tests to determine the effects of different amateur radio satellite communication characteristics on programs communicating over Ethernet.  
+This project was performed to test the validity of generating stories based on the events that transpire in a chess game. Our implementation proves that it is in fact possible but there is still much room for improvement. The chess game parser does a good job parsing the PGN file format. The chess game tracker does a really good job tracking the state of the game. The chess game feature extraction does a good job getting the central themes of the game but could be expanded to get more detailed features. The plot iterator does an excellent job managing the story skins. The current version of the story skins do a good job at generating text but require large amounts of user input to create. As it is now each story skin takes about about two hours to write.  We believe that with a few modifications a similar system will perform extremely well and require much less human input. This topic shows a great deal of potential and hopefully will be expanded in the future.
 
 \section{Acknowledgment}
-We would like to thank Dr. John Bellardo for helpful discussions and feedback. We would also like to thank PolySat for the equipment used during testing.
 
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEabrv,./references}
 
 \end{document}
+
