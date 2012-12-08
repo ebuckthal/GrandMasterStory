@@ -6,11 +6,11 @@ wordset = { "@ALIVECHAR" : ["@KILLCHAR"],
             "@ALLCHAR" : ["@CHAR1, @CHAR2, @CHAR3, and @CHAR4"],
             "@TOWN" : ["Paris", "London", "New York", "San Luis Obispo", "the small town of Ravenholdt", "San Francisco"],
             "@ZOMBIE" : ["Spitter Zombie", "Tank Zombie", "Charger Zombie", "Smoker Zombie", "Hunter Zombie", "Boomer Zombie", "Smoker Zombie", "Jockey Zombie"],
-            "@KILLCHAR" : ["a zombie", "a disgusting, rotting zombie", "what was once human", "a head-less zombie"],
+            "@KILLCHAR" : ["a zombie", "a disgusting, rotting zombie", "what was once human", "a head-less zombie", "a moving pile of limbs"],
             "@TRAVELED" : ["@KILLTRAVEL"],
             "@KILLTRAVEL" : ["walked", "ran", "jumped"], # default travel - walking
             "@DROVE" : ["drove", "sped"], # if car hasn't blown up
-            "@GROUP" : ["gang", "group"]
+            "@GROUP" : ["refugees", "gang", "group", "survivors", "Village People, as they called themselves,"]
          }
 
 # chooses a random option at the beginning of th game
@@ -32,7 +32,7 @@ resources = {"@KILLCHAR" : ["@CHAR1", "@CHAR2", "@CHAR3", "@CHAR4"],
 templates = [
 #intro
 ["@ALLCHAR, had banded together as what seemed like the last survivors. The zombie apocalypse started 2 months ago, but the survivors knew more humans were still alive.",
-"In @TOWN, one rough @GROUP of odd characters were banded together. The zombie apocalypse started only months ago, but @ALIVECHAR had been \
+"In @TOWN, one rough @GROUP of odd characters were banded together. The zombie apocalypse started only months ago. There were a group of survivors who had been \
 hiding in @ALIVECHAR's house for the past three days and needed to venture out for more food and ammunition. Some still thought more people were out there."],
 # move outside
 ["The @GROUP ran outside into their @CAR.", 
@@ -52,13 +52,13 @@ hiding in @ALIVECHAR's house for the past three days and needed to venture out f
  "In the window above, a @ZOMBIE spotted them.",
  "The @GROUP turned a corner and found themselves in a staring contest with a @ZOMBIE.",
  "Some zombies had the strength of a dozen average zombies and right now, @ALIVECHAR was staring one down.",
- "The @GROUP was sprinting between shadowed corners, but @ALIVECHAR tripped briefly and alerted the nearby @ZOMBIE."],
+ "The @GROUP was sprinting between shadowed corners. @ALIVECHAR tripped briefly and alerted a nearby @ZOMBIE. Everyone tensed and quickly pulled their comrade up."],
 #dramatic
 ["@ALIVECHAR stumbles across a hidden cache of weapons and ammunition."
- "There had been a @GROUP of people here before. Guns and ammunition were in stacks but there were no people to be found. Something about it wasn't right, but the @GROUP took what they could.",
+ "There had been a @GROUP of people here before. Guns and ammunition were in stacks. There were no people to be found; what happened here? Something didn't feel right when the @GROUP took what they could.",
  "In a moment of hope, @ALIVECHAR found a stash of batteries, bottled water, and a broken radio. Maybe fixing the radio could reveal another human @GROUP?",
  "The @GROUP was together and out of zombie danger. They barricaded a steel door behind them and took a moment to recuperate.",
- "@ALIVECHAR reloaded his gun. Danger was near, but the last few zombies didn't stand a chance against his shot gun.",
+ "@ALIVECHAR reloaded his gun. Danger was near. The last few zombies didn't stand a chance against his shot gun.",
  "More guns! @ALIVECHAR threw down his baseball bat and picked up something with a little more power."],
 #hero
 ["There was a loud bang as a @ZOMBIE with a whole horde of zombies crashed threw the wall be @ALIVECHAR and @ALIVECHAR pinning them to the wall. \
@@ -67,7 +67,7 @@ In an amazing show of bravery @ALIVECHAR shot the zombies pinning them to the wa
 A @ZOMBIE took the front of the crowd, crushing several of his zombie allies. @ALIVECHAR set up a propane tank trap and ran as fast as possible. Impossibly, he shot over \
 his shoulder and set off the bomb just in time. The @GROUP was safe.",
 "@ZOMBIE jumped out from a window above @ALIVECHAR, crushing his leg and throwing dust into the air. @ALIVECHAR pushed the zombie off with the but of his gun and delivered a fatal blast.",
-"@ALIVECHAR fixed up a barricade in an attempt to escape the rushing horde, but it wasn't going to hold. There were too many zombies. @ALIVECHAR set up a distraction. \
+"@ALIVECHAR fixed up a barricade in an attempt to escape the rushing horde. It wasn't going to hold. There were too many zombies. @ALIVECHAR set up a distraction. \
 Blasting away all the zombies from a nearby window.",
 "In a tight street, @ZOMBIE and @ZOMBIE approached the @GROUP from either side. @ALIVECHAR killed both with amazing marksmanship.",
 "@ALIVECHAR set up a gasoline filled trap while the others stood back in case the zombies surprised him. @ALIVECHAR caught the attention of a horde of zombies and led them straight into \
@@ -76,7 +76,7 @@ the trap which turned into an inferno with a quick shot from @ALIVECHAR's gun. T
 ["@ALIVECHAR managed to bludgeon a @ZOMBIE to death with his bare hands.",
  "@ALIVECHAR destroyed a @ZOMBIE by rolling a refrigerator out of a third-story window with pinpoint accuracy.",
  "By complete surprise, @ALIVECHAR found a zombie gathering and remove it with a skillful toss of a grenade.",
- "A @ZOMBIE approaches @ALIVECHAR, but @ALIVECHAR deals a devastating blow to protect the @GROUP."],
+ "A @ZOMBIE charges at @ALIVECHAR. @ALIVECHAR deals a tremendous blow with a bat killing the zombie. And there what much rejoicing."],
 #UNIMPORTANT_KILL
 ["@ALIVECHAR is surprised by a @ZOMBIE and barely manages to wound it with his crossbow before managing to get away.",
 "A single zombie runs blindly at @ALIVECHAR, who bashes the demon down cleanly with the strike of a club.",
@@ -84,28 +84,26 @@ the trap which turned into an inferno with a quick shot from @ALIVECHAR's gun. T
 "@ALIVECHAR plow though a collection of zombies, easily dismantling each one."],
 #IMPORTANT_DEATH", \
 ["A huge @ZOMBIE threw @KILLCHAR to the ground and tore off his head. Blood everywhere.",
-"From an unnoticed portal, a @ZOMBIE crawls through and bites @KILLCHAR. @ALIVECHAR blasts the zombie away, but it is too late for his bitten comrade. @ALIVECHAR watch him slowly turn, \
-but @ALIVECHAR decides to put him out of misery.",
+"From an unnoticed portal, a @ZOMBIE crawls through and bites @KILLCHAR. @ALIVECHAR blasts the zombie away, but it is too late for his bitten comrade. @ALIVECHAR watch him slowly turn. The sight is uttery gruesome. @ALIVECHAR puts the thing out of misery as everyone stands in awe.",
 "A horde of zombies rush all around @ALIVECHAR. @ALIVECHAR slices several zombies with his drawn sword, but one bites @KILLCHAR. Soon, the zombie horde was ripping his flesh apart.",
-"@ALIVECHAR is grabbed through a window by a @ZOMBIE. @ALIVECHAR attempts to remove it, but more hands keep coming and eventually their comrade is gone."],
+"@ALIVECHAR is grabbed through a window by a @ZOMBIE. @ALIVECHAR attempts to remove it. He can't remove hands at the rate they emerge from the window and eventually their comrade is gone."],
 #UNIMPORTANT_DEATH", \
-["@ALIVECHAR is severely wounded by a rampaging zombie, but he'll make it.", 
+["@ALIVECHAR is severely wounded by a rampaging zombie. He's hurt but not a zombie.", 
 "While they @KILLTRAVEL across the bridge a large mutant zombie smashed the front of their car, throwing them out."],
 #TRAVEL
 ["The @GROUP @TRAVELED down the street toward the grocery store.",
 "@ALIVECHAR declares they haven't yet found safety. Moving seems like the best option.",
 "@ALIVECHAR wants to find a new hideout before dark, so they quickly move across town in search of shelter."],
 #CHECK
-["Off in the distance, the @GROUP sees a boat tied to the dock. Could the ocean give them refuge?",
-"A helicopter circles overhead. @ALIVECHAR wave furiously, but incoming zombies force them indoors. Who was in that helicopter?",
-"The survivors hear gunshots nearby. And shouting! Could there be more people nearby?"],
+["Off in the distance, the @GROUP see a boat tied to the dock. Could the ocean give them refuge?",
+"From the high vantage point, the @GROUP catch sight of the boat. Plenty of zombies stand between them and potential safety."], 
 #important kill, Travel
-["As the @GROUP ran through the street, @ALIVECHAR shot a @ZOMBIE in the face killing it.",
-"@ALIVECHAR knew they needed to cross town. While maneuvering the streets, a @ZOMBIE grabs @ALIVECHAR but @ALIVECHAR quickly destroys the zombie.",
+["As the @GROUP dashed street after stree, @ALIVECHAR shot a @ZOMBIE in the face killing it.",
+"@ALIVECHAR knew they needed to cross town. In the daylight, it was essential to move as quickly as possible. The survivors look behind them and see a @ZOMBIE chasing them. @ALIVECHAR lights up a tank of gasoline and forms a wall of fire to seal off the street.",
 "With a newly-equipped rifle, @ALIVECHAR blasts a @ZOMBIE from the center of it's zombie horde.",
 "@ALIVECHAR steadies his rifle and shoots a @ZOMBIE cleanly from yards away.",
 "Zombies chase @ALIVECHAR up a narrow street. At the end stands a @ZOMBIE formidably. @ALIVECHAR jumps off the top of a car, guns blazing and destroys the threat.",
-"@ALIVECHAR @DROVE their cars over a @ZOMBIE completely destroying the large zombie, but their car isn't looking too good."],
+"@ALIVECHAR @DROVE the car over a @ZOMBIE completely destroying the large zombie, causing structural damage to their car."],
 #CHECK, important kill
 ["They where less the 300 yards to the boat that was there safety when a @ZOMBIE jumped them. @ALIVECHAR shot his crossbow and hit the zombie in the eye.",
 "With the escape boat in sight, a @ZOMBIE jumps out and surprises @ALIVECHAR. @ALIVECHAR quickly cuts the zombie's head off."],
@@ -115,7 +113,7 @@ but @ALIVECHAR decides to put him out of misery.",
 "A @ZOMBIE rushes towards the survivors, followed by zombie stragglers. @ALIVECHAR dodges several swipes by another @ZOMBIE, then @ALIVECHAR shoots both zombie threats."],
 #important kill, unimportant death
 ["@ALIVECHAR was badly wounded in the arm while killing a @ZOMBIE.",
-"It takes almost all of the ammunition @ALIVECHAR has, but he finally brings down a @ZOMBIE."],
+"It takes almost all of the ammunition @ALIVECHAR has loaded, but he finally brings down a @ZOMBIE."],
 #SAFETY
 ["@ALIVECHAR blast the last few remaining zombies from the dock attached to the boat. They jump in and untie the boat. The characters feel safe for once as the boat slowly drifts into the ocean."],
 #Defeat
@@ -130,7 +128,7 @@ but @ALIVECHAR decides to put him out of misery.",
 "@ALIVECHAR still tried every light switch though the power had been out for weeks."], 
 #danger
 ["Opening a door, @ALIVECHAR disturbs a @ZOMBIE.",
- "As our @GROUP turns the corner, several zombies awake and beginning to sense the survivors, but make no move yet.",
+ "As our @GROUP turns the corner, several zombies awake and beginning to sense the survivors. No one dares to take a step and set them off.",
  "A @ZOMBIE jumps out from behind a pile of clothes! But he was certainly naked."],
 #dramatic
 ["@ALIVECHAR stumbles across a hidden cache of underwear. You never know how much you want clean underwear before you don't have it.",
@@ -138,8 +136,7 @@ but @ALIVECHAR decides to put him out of misery.",
 #hero
 ["Through the ceiling, a huge @ZOMBIE fell on top of @ALIVECHAR. He became so enraged that he threw the zombie and a dozen other zombies out a window."],
 #important kill
-["By complete surprise, @ALIVECHAR finds a room filled with gruesome zombies and a @ZOMBIE, he tosses a grenade in and slams the door shut.",
- "A @ZOMBIE approaches @ALIVECHAR, but @ALIVECHAR deals a devastating blow to protect the @GROUP."],
+["By complete surprise, @ALIVECHAR finds a room filled with gruesome zombies and a @ZOMBIE, he tosses a grenade in and slams the door shut."],
 #UNIMPORTANT_KILL
 ["@ALIVECHAR plows though a small bunch of zombies, crushing the skull of each one.",
  "As if they spent every day endlessly killing zombies, @ALIVECHAR killed another zombie."],
@@ -148,12 +145,12 @@ but @ALIVECHAR decides to put him out of misery.",
 "A @ZOMBIE bites @KILLCHAR. 'Noooooooooo!' he screams, slowly turning into a zombie himself, canabalizing the zombie that killed him.",
 "@KILLCHAR is grabbed through a window by a @ZOMBIE. @ALIVECHAR attempt to remove it, but more hands keep coming and eventually their comrade is gone."],
 #UNIMPORTANT_DEATH", \
-["@ALIVECHAR is severely wounded by a rampaging zombie, but he'll make it.", 
- "A zombie attack destroys their radio, but the survivors must remain hopeful."],                                                                       
+["@ALIVECHAR is severely wounded by a rampaging zombie. The group work with stranded pieces of wood and form a splint.", 
+ "A zombie attack destroys their radio. They hadn't heard any radio transmission in days."],
 #TRAVEL
 ["Hallway after hallway. The survivors search for anyway to contact help"],
 #CHECK
-["A helicopter circles overhead. @ALIVECHAR wave furiously, but incoming zombies force them indoors. Who was in that helicopter?",
+["A helicopter circles overhead. @ALIVECHAR wave furiously attracting more zombies. They had to rush away from the windows to avoid danger. Who was in that helicopter?",
  "Helicopter noises! Is someone going to save them?"],
 #important kill, Travel
 ["The @GROUP tries the elevator, but of course the door is pryed open. Inside the elevator shaft, zombies start crawling up the side. A @ZOMBIE grabs @ALIVECHAR, \
@@ -163,8 +160,8 @@ in a cunning move, @ALIVECHAR shoots the elevator cable like he's seen in movies
 #Dramatic, important kill
 ["The next hallway was filled with zombies and the survivors are low on ammunition. @ALIVECHAR starts the action by blasting a @ZOMBIE from across the hall with his rifle."],
 #important kill, unimportant death
-["@ALIVECHAR kills a @ZOMBIE, but his arm is hurt badly. He's low on supplies, but luckily @ALIVECHAR has a roll of bandages.",
-"@ALIVECHAR shoots a large fixture above a @ZOMBIE. The ceiling detaches and crushes the zombies, but unfortunately has destroyed their path."],
+["@ALIVECHAR kills a @ZOMBIE, but the zombie's guts spoiled the bit of crackers they had left. Hopefully more food could be found in the @BUILDING.",
+"@ALIVECHAR shoots a large fixture above a @ZOMBIE. The ceiling detaches and crushes the zombies, unfortunately destorying their path."],
 #SAFETY
 ["@ALIVECHAR kicks open the door to the roof. Outside there are a couple zombies that @ALIVECHAR tosses off the edge. The helicopter circles around and spots the survivors. They're carried away"],
 #Defeat
