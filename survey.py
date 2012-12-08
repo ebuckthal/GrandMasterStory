@@ -15,8 +15,7 @@ print "Go to http://chesstempo.com/pgn-viewer.html (or Google for PGN Viewer) an
 
 print "Guess which chess game generated the story! Thanks for you help!\n"
 
-for s in range(99):
-
+for s in range(20):
 
   sol = ''
 
@@ -29,22 +28,27 @@ for s in range(99):
   print "|||||||||||||||| S U R V E Y %02d |||||||||||||||||||" % (s) 
   print "|||||||||||||||||||||||||||||||||||||||||||||||||||\n"
   
-  i = 0
-  for g in game:
-    pgn = g.makePGN()
-    if pgn.endswith('1/2'):
-      pgn = pgn[:-3]
-
-    print "--------- BEGINNING OF PGN %d for %02d ---------\n" % (i, s)
-    print pgn
-    print "\n----------- END OF PGN %d for %02d -------------\n" % (i, s)
-    i = i + 1
-  
+  print "--------- BEGINNING OF PGN %02d ---------\n" % (s)
   choice = random.randint(0, len(game)-1)
   f.write(str(s) + ' ' + str(choice) + '\n')
+  
+  pgn = game[choice].makePGN()
+  if pgn.endswith('1/2'):
+    pgn = pgn[:-3]
 
-  iterator = PlotIterator(skins.Zombie.plot, game[choice], separator="\n\n")
-  print iterator.generateStory()
+  print pgn
+
+  print "\n----------- END OF PGN %02d -------------\n" % (s)
+  
+  i = 1
+  for g in game:
+    iterator = PlotIterator(skins.Zombie.plot, g, separator="\n\n")
+    print '============ BEGINNGING OF STORY %d ================' % (i)
+    print iterator.generateStory()
+    print '=============== END OF STORY %d ====================' % (i)
+    i = i + 1
+   
+  
   
   print "|||||||||||||||||||||||||||||||||||||||||||||||||||"
   print "|||||||||| E N D  O F  S U R V E Y %02d |||||||||||||" % (s)
