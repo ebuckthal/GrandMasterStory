@@ -17,6 +17,12 @@ DEFEAT = 'defeat'
 SAFETY = 'safety'
 CHECK = "check"
 
+WIN = 'win'
+LOSE = 'lose'
+
+WIN_TO_LOSE = 'winToLose'
+LOSE_TO_WIN = 'loseToWin'
+
 #list of tuples of moves
 def getFeatures(moves): 
   if moves == [] or moves == None:
@@ -30,9 +36,14 @@ def getFeatures(moves):
   wfeatureWeights[DRAMATIC] = 0
   wfeatureWeights[DANGER] = 0
   wfeatureWeights[TRAVEL] = 0
+  wfeatureWeights[WIN] = 0
+  wfeatureWeights[LOSE] = 0
   bfeatureWeights[DRAMATIC] = 0
   bfeatureWeights[DANGER] = 0
   bfeatureWeights[TRAVEL] = 0
+  bfeatureWeights[WIN] = 0
+  bfeatureWeights[LOSE] = 0
+
   for i in range(len(moves)):
     move_tup = moves[i]
     for move in move_tup:
@@ -42,10 +53,15 @@ def getFeatures(moves):
          wfeatureWeights[DRAMATIC] += getDramaticWeight(move)
          wfeatureWeights[DANGER] += getDangerWeight( move )
          wfeatureWeights[TRAVEL] += getTravelWeight(move)
+         wfeatureWeights[WIN] += getWinWeight(move, True) 
+         wfeatureWeights[LOSE] += getLoseWeight(move, True)
+
       else:
          bfeatureWeights[DRAMATIC] += getDramaticWeight(move)
          bfeatureWeights[DANGER] += getDangerWeight( move )
          bfeatureWeights[TRAVEL] += getTravelWeight(move)
+         bfeatureWeights[WIN] += getWinWeight(move, False) 
+         bfeatureWeights[LOSE] += getLoseWeight(move, False)
 
       death = getDeathWeight( move )
       if death == 1:
@@ -87,7 +103,8 @@ def getFeatures(moves):
             bfeatures.append(HERO)
           else:
             bheros.append( move.capture )
-         
+
+
 
   if bfeatureWeights[DRAMATIC] / len(moves) > 2:
     bfeatures.append( DRAMATIC )
@@ -101,6 +118,16 @@ def getFeatures(moves):
     bfeatures.append( DANGER )
   if wfeatureWeights[DANGER] / len(moves) > 2:
     wfeatures.append( DANGER )
+
+  if wfeatureWeights[WIN] > bfeatureWeights[WIN]:
+     wfeatures.append( WIN )
+  if bfeatureWeights[WIN] > bfeatureWeights[WIN]:
+     bfeatures.append( WIN )
+
+  if wfeatureWeights[LOSE] > bfeatureWeights[LOSE]:
+     wfeatures.append( LOSE )
+  if bfeatureWeights[LOSE] > bfeatureWeights[LOSE]:
+     bfeatures.append( LOSE )
   
   return (set(wfeatures), set(bfeatures))
     
@@ -120,6 +147,26 @@ def getDeathWeight(move):
 def getCheckWeight(move):
    if move.check:
       return 5
+   return 0
+
+def getWinWeight(move, isWhite=True):
+   if isWhite:
+      if move.whiteScore > move.blackScore:
+         return 1 
+   else:
+      if move.blackScore > move.whiteScore:
+         return 1
+
+   return 0
+
+def getLoseWeight(move, isWhite=True):
+   if isWhite:
+      if move.whiteScore < move.blackScore:
+         return 1 
+   else:
+      if move.blackScore < move.whiteScore:
+         return 1
+
    return 0
 
 # travel is the distance traveled 0 to 4

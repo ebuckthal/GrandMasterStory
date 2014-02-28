@@ -6,4 +6,5 @@ import skins.Zombie as skin
 
 game = chess.game.randomGame()
 iterator = PlotIterator(skin.plot, game, separator="\n\n")
+#iterator.generateStory()
 print iterator.generateStory()

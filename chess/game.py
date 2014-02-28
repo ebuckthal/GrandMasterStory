@@ -57,9 +57,9 @@ class ChessGame(object):
 
       # get totalMoves
       self.totalMoves = len(self.whiteMoves) + len(self.blackMoves)
-      if self.gameDict["Result"] == '1-0':
+      if self.gameDict["Result"] == '\"1-0\"':
          self.outcome = (1,0)
-      elif self.gameDict["Result"] == '0-1':
+      elif self.gameDict["Result"] == '\"0-1\"':
          self.outcome = (0,1)
       else:
          self.outcome = (1,1)

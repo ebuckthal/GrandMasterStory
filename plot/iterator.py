@@ -1,4 +1,5 @@
 import random, math
+from collections import Counter
 from node import PlotNode
 import chess.features as features 
 import re
@@ -14,6 +15,8 @@ class PlotIterator(object):
     self.whitesView = whitesView
     self.separator = separator
     self.debug = debug
+    self.overallFeatures = []
+    self.pastFeatures = Counter() 
     if (chessGame):
       self.__setupGame__()
 
@@ -33,6 +36,11 @@ class PlotIterator(object):
       self.moveGroups.append(moves[total:total+count])
       total += count
 
+   # add to overAllFeatures
+
+    self.overallFeatures.append({ 'victory': ((self.game.outcome[0] and self.whitesView) or (not self.game.outcome[0] and not self.whitesView)) })
+    #print self.overallFeatures
+
   def getMoveFeatures(self, moves):
     if (moves):
       if self.whitesView:
@@ -46,15 +54,21 @@ class PlotIterator(object):
         return [features.DEFEAT]
 
   def chooseNodeWithMoves(self, nodeIds, moves):
+
     moveFeatures = self.getMoveFeatures(moves)
+
+    #this keeps track of all features that we have seen so far in the GAME, not necessarily in the PLOT
+    self.pastFeatures.update(moveFeatures)
 
     bestMatch = None 
     bestScore = -100
+      
     for nodeId in nodeIds:
       if (self.plotNodes[nodeId].empty):
         continue
       score = 0
       nodeFeatures = self.plotNodes[nodeId].features
+
       for feat in nodeFeatures:
          if feat in moveFeatures:
             score += 1
@@ -66,6 +80,7 @@ class PlotIterator(object):
          bestMatch.append( self.plotNodes[nodeId] )
 
     r = random.choice( bestMatch )
+    r.moveGroupFeatures = moveFeatures;
     if self.debug:
       print r.name, r.features, moveFeatures
     return r 
@@ -92,7 +107,7 @@ class PlotIterator(object):
         plot += currentNode.name + '\n'
         while (currentNode.nextNodes):
             currentNode = self.getNextNode(currentNode)
-            plot += currentNode.name + '\n'
+            plot += currentNode.name + '\n' + currentNode.features + '\n'
     else:
       print "Error: no plot"
     return plot
@@ -102,10 +117,10 @@ class PlotIterator(object):
     story = ""
     if self.plotNodes:
         currentNode = self.plotNodes[0]
-        story += currentNode.generateText() + self.separator
+        story += currentNode.generateText(self.overallFeatures, self.pastFeatures) + self.separator
         while (currentNode.nextNodes):
             currentNode = self.getNextNode(currentNode)
-            story += currentNode.generateText() + self.separator
+            story += currentNode.generateText(self.overallFeatures, self.pastFeatures) + self.separator
     else:
       print "Error: no plot"
     return story

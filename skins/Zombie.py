@@ -21,12 +21,14 @@ constants = {
 
 # maps keys to possible values for a story
 choices = [ (["@CHAR1", "@CHAR2", "@CHAR3", "@CHAR4"], ["Mike", "Eric", "Nick", "Connor", "Ted", "Foaad", "Andrew"])
-          ]
+]
 
-resources = {"@KILLCHAR" : ["@CHAR1", "@CHAR2", "@CHAR3", "@CHAR4"],
-             "@KILLTRAVEL" : ["@DROVE"]
-
+resources = { 
+   "@KILLCHAR" : (["@CHAR1", "@CHAR2", "@CHAR3", "@CHAR4"], []),
+   "@KILLTRAVEL" : (["@DROVE"], [])
 }
+
+rememberings = [ ("@KILLCHAR", features.IMPORTANT_DEATH, ["here we remember @KILLCHAR and all that he did"]) ] 
 
 #lists of templates used by the plot nodes
 templates = [
@@ -312,4 +314,18 @@ nodes = [
     [features.DEFEAT]),
 ]
 
-plot = skin.initPlot(nodes, templates, wordset, constants, choices, resources)
+holistics = [ 
+   #win in the end, losing now
+   ( (True, False), ['we were winning now we\'re losing and we win', 'we were winning now we\'re losing 2 and we win'] ),
+
+   #lose in the end, losing now
+   ( (False, False), ['we were winning now we\'re losing and we lose', 'we were winning now we\'re losing 2 and we lose'] ),
+
+   #win in the end, wining now
+   ( (True, True), ['we were losing now we\'re winning and we win', 'we were losing now we\'re winning 2 and we win'] ),
+
+   #lose in the end, winning now
+   ( (False, True), ['we were losing now we\'re winning and we lose', 'we were losing now we\'re winning 2 and we lose'] )
+]
+
+plot = skin.initPlot(nodes, templates, wordset, constants, choices, resources, holistics, rememberings)
