@@ -2,6 +2,7 @@ import skin
 import chess.features as features
 
 # random options to be used throughout the game
+# if this references a resource, it fills that first, tags here with the same name as a resource are back ups
 wordset = { "@ALIVECHAR" : ["@KILLCHAR"],
             "@ALLCHAR" : ["@CHAR1, @CHAR2, @CHAR3, and @CHAR4"],
             "@TOWN" : ["Paris", "London", "New York", "San Luis Obispo", "the small town of Ravenholdt", "San Francisco"],
@@ -20,6 +21,7 @@ constants = {
           }
 
 # maps keys to possible values for a story
+# chooses from a list of possible values initially
 choices = [ (["@CHAR1", "@CHAR2", "@CHAR3", "@CHAR4"], ["Mike", "Eric", "Nick", "Connor", "Ted", "Foaad", "Andrew"])
 ]
 
@@ -28,6 +30,7 @@ resources = {
    "@KILLTRAVEL" : (["@DROVE"], [])
 }
 
+#references a value of RESOURCES. This sentence will be appended if a member of that RESOURCE has been spent and that feature appears in the game moves again (not necessarily the plot node)
 rememberings = [ ("@KILLCHAR", features.IMPORTANT_DEATH, ["here we remember @KILLCHAR and all that he did"]) ] 
 
 #lists of templates used by the plot nodes
@@ -170,6 +173,7 @@ in a cunning move, @ALIVECHAR shoots the elevator cable like he's seen in movies
 ["Suddenly the @GROUP is surrounded by the biggest horde of zombies that they have ever seen led by a @ZOMBIE. Each survivor is torn apart brutally and killed."]
 ]
 
+#this is name, next possible nodes, list of features applied to this node
 nodes = [
   ("0 Intro", \
     [1], \
@@ -314,6 +318,7 @@ nodes = [
     [features.DEFEAT]),
 ]
 
+#these sentences will be appended if the winning favor switches sides after several nodes of battle
 holistics = [ 
    #win in the end, losing now
    ( (True, False), ['we were winning now we\'re losing and we win', 'we were winning now we\'re losing 2 and we win'] ),
