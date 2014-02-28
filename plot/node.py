@@ -52,8 +52,8 @@ class PlotNode(object):
                 template = random.choice(temp)
 
                 string = self.replaceTemplateWithTag(template, self.getReplacementForTag(tag))
-                print string
-                print self.moveGroupFeatures
+                #print string
+                #print self.moveGroupFeatures
 
                 return string 
 
