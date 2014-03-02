@@ -18,23 +18,38 @@ class PlotNode(object):
 
     def getHolistics(self, gameFeaturesDict=None, gamePastFeaturesDict=None):
 
-       wasWinning = gamePastFeaturesDict[f.LOSE] < gamePastFeaturesDict[f.WIN]
+#       print self.moveGroupFeatures
 
        willWin = gameFeaturesDict[0]['victory']
 
+       #if we were actually winning or losing by more than 1
+       if gamePastFeaturesDict[f.WIN] == gamePastFeaturesDict[f.LOSE]:
+          return ''
+       else: 
+         wasWinning = gamePastFeaturesDict[f.WIN] > gamePastFeaturesDict[f.LOSE]
+
+       #if we are actually not winning or losing
        if f.WIN in self.moveGroupFeatures:
          nowWinning = True
        else:
-         nowWinning = False
+          if f.LOSE in self.moveGroupFeatures:
+            nowWinning = False
+          else:
+            return ''
 
-       for ((was, will), text) in self.holistics:
-          if was == wasWinning and will == willWin:
+       print (wasWinning, nowWinning, willWin)
 
-             if len(text) > 0:
-               holistic = random.choice(text)
-               text.remove(holistic) 
+       if (wasWinning and not nowWinning) or (not wasWinning and nowWinning):
+         for ((now, will), text) in self.holistics:
+               if now == nowWinning and will == willWin:
 
-               return holistic
+                  print ((now, will), text) 
+
+                  if len(text) > 0:
+                     holistic = random.choice(text)
+                     text.remove(holistic) 
+
+                     return holistic
 
        return ''
 

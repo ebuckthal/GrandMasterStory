@@ -321,7 +321,7 @@ nodes = [
 #these sentences will be appended if the winning favor switches sides after several nodes of battle
 holistics = [ 
    #win in the end, losing now
-   ( (True, False), ['we were winning now we\'re losing and we win', 'we were winning now we\'re losing 2 and we win'] ),
+   ( (False, True), ['we were winning now we\'re losing and we win', 'we were winning now we\'re losing 2 and we win'] ),
 
    #lose in the end, losing now
    ( (False, False), ['we were winning now we\'re losing and we lose', 'we were winning now we\'re losing 2 and we lose'] ),
@@ -330,7 +330,7 @@ holistics = [
    ( (True, True), ['we were losing now we\'re winning and we win', 'we were losing now we\'re winning 2 and we win'] ),
 
    #lose in the end, winning now
-   ( (False, True), ['we were losing now we\'re winning and we lose', 'we were losing now we\'re winning 2 and we lose'] )
+   ( (True, False), ['we were losing now we\'re winning and we lose', 'we were losing now we\'re winning 2 and we lose'] )
 ]
 
 plot = skin.initPlot(nodes, templates, wordset, constants, choices, resources, holistics, rememberings)
