@@ -1,23 +1,50 @@
 import skin
 import chess.features as features
 
+#8 major and minor town names
+townNamesMajor = ["Paris", "London", "New York", "Chicago", "Berlin", "Tokyo", "Shanghai", "San Francisco"]
+townNamesMinor = ["Ravenholdt", "Soledad", "Woodcrest", "Buttonwillow", "Bartercity", "Rolla","San Luis Obispo","Lawton"]
+townAdj1 = ["New","Old","Neo","occupied","reconstructed"]
+townAdj2 = ["tiny city of","small town of","town of","village of","community of"]
+
+towns = []
+map (lambda x: towns.extend(x),[townNamesMajor,townNamesMinor,[adj+" "+town for town in townNamesMajor for adj in townAdj1],[adj+" "+town for town in townNamesMinor for adj in townAdj2]])
+
+zombieNames = ["Spitter","Tank","Charger","Smoker","Hunter","Boomer","Jockey","Scout","Soldier","Sentry"]
+zombies = [z+" Zombie" for z in zombieNames]
+killCharOriginal = ["a zombie", "a disgusting, rotting zombie", "what was once human", "a head-less zombie", "a moving pile of limbs"] #6 orignals
+killCharAdj1 = ["disgusting","filthy","rotting","nasty","headless","moving pile of limbs of a","diseased","decaying","slow moving","miserable","cursed","godforsaken"] #12 adj1
+
+killChars = []
+map(lambda x: killChars.extend(x),[killCharOriginal,[adj1+" "+z for adj1 in killCharAdj1 for z in zombies]])  #126
+
 # random options to be used throughout the game
 # if this references a resource, it fills that first, tags here with the same name as a resource are back ups
 wordset = { "@ALIVECHAR" : ["@KILLCHAR"],
             "@ALLCHAR" : ["@CHAR1, @CHAR2, @CHAR3, and @CHAR4"],
-            "@TOWN" : ["Paris", "London", "New York", "San Luis Obispo", "the small town of Ravenholdt", "San Francisco"],
-            "@ZOMBIE" : ["Spitter Zombie", "Tank Zombie", "Charger Zombie", "Smoker Zombie", "Hunter Zombie", "Boomer Zombie", "Smoker Zombie", "Jockey Zombie"],
-            "@KILLCHAR" : ["a zombie", "a disgusting, rotting zombie", "what was once human", "a head-less zombie", "a moving pile of limbs"],
+            "@TOWN" : towns,   #96 total town names
+            "@ZOMBIE" : zombies, #10 total
+            "@KILLCHAR" : ["a "+k for k in killChars], #126
             "@TRAVELED" : ["@KILLTRAVEL"],
-            "@KILLTRAVEL" : ["walked", "ran", "jumped"], # default travel - walking
-            "@DROVE" : ["drove", "sped"], # if car hasn't blown up
-            "@GROUP" : ["refugees", "gang", "group", "survivors", "Village People, as they called themselves,"]
+            "@KILLTRAVEL" : ["walked", "ran", "jumped","leaped","crawled","moved"], #6 # default travel - walking
+            "@DROVE" : ["drove", "sped", "escaped","hawled","moved"], #5 # if car hasn't blown up
+	    "@COLLECTION": ["group","gang","set","assembly","confederation","family"], #6
+	    "@COLADJ": ["crazy","rough","surviving","miserable","sleepless","battered","tired","hearty","brave","gutsy"], #10
+            "@GROUP" : ["cast of refugees", "gang", "group", "gang of survivors", "Village People, as they called themselves,"] #5
          }
+
+buildingNames = ["apartment building", "hospital", "police station", "office building", "bank building"] 
+buildingAdj = ["bombed-out","half-destroyed","run-down"]
+buildings = [a+" "+b for a in buildingAdj for b in buildingNames] #15
+
+carNames = ["jeep", "Hummer", "Ford Focus", "ambulance", "police cruiser","minivan","school bus","Audi"] #8
+carAdj = ["black","white","rusted","run-down","old","beat-up","clunker of a"] #7
+cars = [a+" "+b for a in carAdj for be in carNames] #56
 
 # chooses a random option at the beginning of th game
 constants = {
-            "@BUILDING" : ["bombed-out apartment building", "run-down hospital", "police station", "crashed airplane"],
-            "@CAR" : ["beat up jeep", "black hummer", "ford focus", "run-down ambulance", "police cruiser"]
+            "@BUILDING" : (buildings),
+            "@CAR" : (cars)
           }
 
 # maps keys to possible values for a story
@@ -31,13 +58,13 @@ resources = {
 }
 
 #references a value of RESOURCES. This sentence will be appended if a member of that RESOURCE has been spent and that feature appears in the game moves again (not necessarily the plot node)
-rememberings = [ ("@KILLCHAR", features.IMPORTANT_DEATH, ["here we remember @KILLCHAR and all that he did"]) ] 
+rememberings = [ ("@KILLCHAR", features.IMPORTANT_DEATH, ["\"This is for @KILLCHAR!\" yells @ALIVECHAR."]) ] 
 
 #lists of templates used by the plot nodes
 templates = [
 #intro
 ["@ALLCHAR, had banded together as what seemed like the last survivors. The zombie apocalypse started 2 months ago, but the survivors knew more humans were still alive.",
-"In @TOWN, one rough @GROUP of odd characters were banded together. The zombie apocalypse started only months ago. There were a group of survivors who had been \
+"In @TOWN, members of one @COLADJ @COLLECTION of odd characters were banded together. The zombie apocalypse started only months ago. There were a group of survivors who had been \
 hiding in @ALIVECHAR's house for the past three days and needed to venture out for more food and ammunition. Some still thought more people were out there."],
 # move outside
 ["The @GROUP ran outside into their @CAR.", 
@@ -321,16 +348,16 @@ nodes = [
 #these sentences will be appended if the winning favor switches sides after several nodes of battle
 holistics = [ 
    #win in the end, losing now
-   ( (False, True), ['we were winning now we\'re losing and we win', 'we were winning now we\'re losing 2 and we win'] ),
+   ( (False,True), ['It looked bleak. But @ALIVECHAR had hope. They will survive. @ALIVECHAR knew it all along.', '@ALIVECHAR always had hope. Others gained strength from this.','@ALIVECHAR began praying. \"This is the lowest of the low but you hve never let me down before. I have faith.\"'] ),
 
    #lose in the end, losing now
-   ( (False, False), ['we were winning now we\'re losing and we lose', 'we were winning now we\'re losing 2 and we lose'] ),
+   ( (False, False), ['It was @ALIVECHAR\'s cynicism that was to become their mortal reality.', '@ALIVECHAR knew it was hopeless. @ALIVECHAR had always predicted it.','This is the moment when @ALIVECHAR knew it was all over.'] ),
 
    #win in the end, wining now
-   ( (True, True), ['we were losing now we\'re winning and we win', 'we were losing now we\'re winning 2 and we win'] ),
+   ( (True, True), ['@ALIVECHAR had characteristic hope: \"I told you guys we\'ll kick some Zombie butt\". A rare but hopeful laughter was heard from the group.', 'This time tomorrow, @ALIVECHAR thought, they would be rescued. That would proved omniscient.','At this moment @ALIVECHAR realized something profound. \"We will make it\", he said with amazing faith.'] ),
 
    #lose in the end, winning now
-   ( (True, False), ['we were losing now we\'re winning and we lose', 'we were losing now we\'re winning 2 and we lose'] )
+   ( (True, False), ['@ALIVECHAR was on adrenaline. So were others. But @ALIVECHAR somehow knew this victory was to be shortlived. And it was.', 'So far so good, thought @ALIVECHAR, but will we win the war? Everyone knew the answer would be a negative. But none would dare say it.','@ALIVECHAR thought to himself \"How long can we keep this up?\".'] )
 ]
 
 plot = skin.initPlot(nodes, templates, wordset, constants, choices, resources, holistics, rememberings)
